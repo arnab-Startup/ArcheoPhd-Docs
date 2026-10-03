@@ -81,3 +81,26 @@ Generalist LLMs frequently hallucinate page numbers, invent fictional excavation
 2. The engine executes a substring search (`raw_text.find(quote)`) against the source chunk.
 3. If the quote does not exist verbatim, the extraction is flagged as `hallucinated_claims > 0` and discarded.
 4. **Target Tolerance:** Exactly **0.0% hallucinations permitted**.
+
+---
+
+## 4. Ingestion Manager & Adversarial Gating (`IngestionManager`)
+
+> **Subsystem Location:** [`desktop/engine/extraction/ingestion_manager.hpp`](file:///d:/Prorgram/Project/ArcheoPhd/desktop/engine/extraction/ingestion_manager.hpp)  
+> **Test Harness:** [`desktop/tests/test_ingestion_gating_adversarial.cpp`](file:///d:/Prorgram/Project/ArcheoPhd/desktop/tests/test_ingestion_gating_adversarial.cpp)
+
+Following Phase 0 empirical benchmarks, ArchaeoPhD enforces strict physical print classification and dual-plane data separation:
+
+### 4.1 Default-Safe Ingestion & Zero-Heuristic Classification
+- **Default-Safe to Class B:** Every newly ingested document defaults strictly to `CLASS_B` (Porous/Letterpress).
+- **Physical Print Confirmation:** Upgrading to `CLASS_A` requires explicit confirmation of physical print attributes (opaque paper, high-contrast black-on-white text, and zero reverse-side ink bleed-through). Calendar year heuristics (e.g. `>1980`) are explicitly forbidden. Any malformed input string fail-safes to `CLASS_B`.
+
+### 4.2 Two Distinct Data Planes: Search vs. Truth
+To resolve the question of document discoverability before manual transcription:
+1. **Unstructured Passage Retrieval Index (Search Plane):** On ingestion, rough OCR text is chunked and embedded into `VectorIndex` with `transcription_status = "UNVERIFIED_ROUGH_SCAN"`. Researchers can immediately search and find relevant passages across their entire library.
+2. **Structured Knowledge Graph (Truth Plane):** Zero automated machine extractions are written to the Knowledge Graph for Class B documents. The truth plane is strictly reserved for verified consensus facts (Class A) or human double-entry (Class B).
+
+### 4.3 Standing Design Principles Enforced in Code
+1. **"A Blank Field is Safer Than a Plausible-Looking Wrong One":** `SaveManualTranscription` strictly commits human-entered fields. The desktop UI presents clean blank forms next to high-resolution document scans, avoiding cognitive confirmation bias on plausible machine hallucinations.
+2. **Prominent Optical Crops in Verification Queue:** For Class A dual-engine candidate disagreements, the UI mandates prominent visual display of the source image crop before presenting candidate buttons or manual overrides.
+3. **Mid-Session Reflag Purge:** If a researcher downgrades a document from Class A to Class B mid-session, all staged unconfirmed facts are purged immediately, and pending verification items are marked `REJECTED_DUE_TO_RECLASSIFICATION`.
