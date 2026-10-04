@@ -20,7 +20,7 @@ Native C++ core computational engines:
 * **[`CONTRADICTIONS.md`](engine/CONTRADICTIONS.md)**: 4-tier contradiction detection engine, Tarjan's Strongly Connected Components (SCC) for stratigraphic Harris Matrix cycles, review guardrails.
 * **[`EXTRACTION.md`](engine/EXTRACTION.md)**: `DocumentExtractor` layout parsing, double-column PDF extraction, schema prompting, 100% verbatim citation grounding.
 * **[`STORAGE_COMPRESSION.md`](engine/STORAGE_COMPRESSION.md)**: `NativeStorage` Zstandard compression with shared pre-trained archaeological dictionary, independent `.zst` archives, SHA-256 byte-for-byte fidelity.
-* **[`VECTOR_SEARCH.md`](engine/VECTOR_SEARCH.md)**: `VectorIndex` 128-dimensional Matryoshka embeddings (`nomic-embed-text-v1.5`), in-memory cosine similarity, LanceDB integration.
+* **[`VECTOR_SEARCH.md`](engine/VECTOR_SEARCH.md)**: `VectorIndex` 128-dimensional Matryoshka embeddings (`nomic-embed-text-v1.5`), atomic binary vector store (`vectors.bin`), and AVX2-accelerated in-memory cosine similarity.
 
 ### 📋 3. [`plans/`](plans/)
 Roadmaps and milestone specifications:

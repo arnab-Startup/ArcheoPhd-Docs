@@ -26,7 +26,9 @@ E:\My-Archaeology-SSD/
   ├── logs/
   └── libraries/
         └── <Library Name>/
-              ├── library.lancedb/        ← chunks + vectors + knowledge graph
+              ├── vectors.bin             ← contiguous 128-dim binary vector store
+              ├── relational_state.json   ← atomic knowledge graph & metadata
+              ├── chunks/                 ← compressed document text passages
               ├── compression-dict.zstd   ← pre-trained shared dictionary
               ├── archives/               ← <doc_id>.zst lossless archives
               │     └── index.db          ← doc_id to file mapping

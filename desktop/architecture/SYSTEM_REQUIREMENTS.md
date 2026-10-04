@@ -26,7 +26,7 @@
 | **Embedding Model (`nomic-embed-text-v1.5.gguf`)** | ~0.5 GB | Fixed (Loaded into RAM on demand) |
 | **Reasoning Model (`llama-3-8b-instruct-q4_k_m.gguf`)**| ~4.9 GB | Fixed (Quantized 4-bit weights) |
 | **Corpus Archive (`archives/*.zst`)** | ~1–4 GB | Scales with library (Lossless ~74% compression) |
-| **Unified Database (`library.lancedb/`)** | ~0.2–1 GB | Scales with total chunks and knowledge graph nodes |
+| **Native Storage & Vector Index (`state.json`, `vectors.bin`)** | ~0.1–0.5 GB | Scales with total chunks (512 bytes/vector) and graph nodes |
 | **Total Typical Footprint** | **~7–11 GB** | Fully contained inside user-selected Data Root |
 
 ---

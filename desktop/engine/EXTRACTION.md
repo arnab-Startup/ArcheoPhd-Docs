@@ -34,7 +34,7 @@ Anti-Hallucination Citation Grounding Verifier
   - If a quote cannot be found in the raw chunk, the claim is rejected
        │
        ▼
-Unified Store (LanceDB Chunks + Graph Tables)
+Unified Native Storage (Relational JSON + Binary Vector Store)
 ```
 
 ---

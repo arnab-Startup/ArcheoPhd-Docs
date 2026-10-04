@@ -23,3 +23,14 @@ Standard sentence embeddings (e.g. 768 or 1536 dimensions) consume excessive RAM
 $$\text{similarity}(\vec{A}, \vec{B}) = \vec{A} \cdot \vec{B} = \sum_{i=1}^{128} A_i B_i$$
 
 - With SIMD AVX2 acceleration, computing cosine similarity across 50,000 document vectors takes **< 1.5 milliseconds** on modern laptop CPUs.
+
+---
+
+## 3. Atomic Disk Persistence (`vectors.bin`)
+
+To ensure that pre-computed vectors survive application restarts, power loss, and crashes without requiring expensive re-embedding:
+
+1. **Binary Layout:** Contiguous binary serialization (`data/vectors.bin`) with `APV1` magic header, record count, and structured entries (`chunk_id`, `doc_id`, `page_ref`, and Float32[128] vector).
+2. **Durability Guarantee:** Written to `vectors.bin.tmp`, flushed to physical media via Win32 `FlushFileBuffers`, and atomically promoted via `MoveFileExA` with `MOVEFILE_WRITE_THROUGH`.
+3. **Instant Startup:** Loaded during `NativeStorage::load_state()`, restoring the entire vector library in < 5 milliseconds.
+
