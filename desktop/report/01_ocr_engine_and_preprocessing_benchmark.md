@@ -88,7 +88,7 @@ Binarization algorithms operate on luminance gradients. When ink from the revers
 ---
 
 ## 5. The Zero False Consensus Safety Guarantee
- 
+
 > **ERRATUM (2026-10-06):** The formula and 0/47 calculation below were not directly measured during the Phase 0 run; `evaluate_benchmark_v2.js` unconditionally treated all dual-engine misses as disagreements without comparing what each engine actually transcribed. Direct empirical measurement under span anchoring (`docs/specs/03_anchored_scorer_rules.md`) confirms that raw optical character false consensus is indeed **0.00% (0/80 [0.00%, 4.58%])** where the target was present in the window. However, simple string equality does NOT prevent non-optical errors: 5.0% of agreed facts lose units (`40 miles` $\to$ `40`) and 16.3% bind adjacent numbers. Class A auto-accept is **paused** pending Step 4 attribution and unit validation.
 
 The pivotal safety discovery of this benchmark is the behavior of cross-engine disagreement on corrupted text:
