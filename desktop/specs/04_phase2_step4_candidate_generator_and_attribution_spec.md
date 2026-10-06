@@ -181,7 +181,7 @@ Degraded letterpress scans (Class B, e.g. Sankalia) remain **$100\%$ routed to m
 ## 6. Monograph Page Partition Protocol
 
 ### 6.1 Partition Rationale & Evolution from Initial 25/25 Draft
-Early exploratory drafts proposed an arbitrary 25 development / 25 sealed page split without mapping the exact page locations of the 22 forensic audit facts. Direct mechanical extraction from `evaluated_166.json` revealed that the 22 audit facts resided across 15 distinct monograph pages (4 Chakrabarti, 8 Rajan, 3 Sankalia). To prevent test contamination and circular tuning, all pages containing audit facts were moved out of the held-out partition and assigned strictly to the Development set, alongside 1 challenge case table page (`rajan_p110-110`).
+Early exploratory drafts proposed an arbitrary 25 development / 25 sealed page split without mapping the exact page locations of the 22 forensic audit facts. Direct mechanical extraction from `evaluated_166.json` revealed that the 22 audit facts resided across 15 distinct monograph pages: 4 Chakrabarti (`p015`, `p018`, `p021`, `p215`), 8 Rajan (`p019`, `p022`, `p023`, `p024`, `p025`, `p050`, `p075`, `p100`), and 3 Sankalia (`p025`, `p150`, `p210`). To prevent test contamination and circular tuning, all 15 pages containing audit facts were moved out of the held-out partition and assigned strictly to the Development set, alongside 1 challenge case table page (`rajan_p110-110`), establishing exactly **16 development pages** (4 Chakrabarti + 9 Rajan + 3 Sankalia).
 
 This establishes the authoritative, mechanically verified partition:
 - **Total Monograph Benchmark Pages:** 50 pages across 3 monographs.
@@ -201,7 +201,11 @@ This establishes the authoritative, mechanically verified partition:
   All Sankalia pages containing audit facts (#37, #51, #55, #56) reside exclusively in the Development partition.
 - **Inspection Caveat:** Every page in the 50-page set was previously inspected during Phase 0, Step 1, Step 2, and Step 3. Therefore, "held-out" means strictly **"held out from Step 4 development tuning"**, not uninspected source text.
 - **Class A Pool Limitation:** Because Class B degraded letterpress scans (Sankalia) are permanently hard-gated to manual double-entry transcription in production, the 22 held-out Sankalia pages carry zero production automated ingestion claim. The genuine held-out evaluation pool for automated Class A extraction is restricted to **12 pages** (6 Chakrabarti + 6 Rajan). Any automated performance claims evaluated against this 12-page held-out sample will be statistically thin ($N \le 12$ pages).
-- **Cryptographic Seal:**
-  The 60-case sealed evaluation benchmark (`step4_sealed_benchmark.json`) embeds this partition metadata and was cryptographically frozen at commit `e7794fb`:
+- **Cryptographic Seal & Commit Provenance:**
+  The 60-case sealed evaluation benchmark (`step4_sealed_benchmark.json`) was cryptographically frozen at commit `e7794fb`:
   - **SHA-256 Hash:** `4B9AD58F8AEDF40237F9CE104978472175188086168D765B6509A821420B8F3C`
-  - Committed prior to the creation of any Step 4 candidate generator implementation code.
+  - **Git History Trace (`git log --follow`):**
+    1. `1cb10e5` (10:51:43): Initial benchmark split (blob `f4ee1f6`).
+    2. `db481fe` (11:07:56): Updated spec schema integration (blob `4eb2de7`).
+    3. `e7794fb` (12:23:45): Benchmark re-sealed with mechanical partitions (blob `be23720`, SHA-256 `4B9AD58F...`), moving all 15 audit pages to development to eliminate page leakage.
+    4. Confirmed via `git rev-parse HEAD:tests/step4_eval/step4_sealed_benchmark.json` that the sealed benchmark remains identical to blob `be23720` from commit `e7794fb`, committed prior to any Step 4 candidate generator implementation code.
