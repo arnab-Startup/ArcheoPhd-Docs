@@ -18,8 +18,9 @@ This directory contains the complete technical reports and empirical benchmark f
 
 1. **"A Blank Field is Safer Than a Plausible-Looking Wrong One"**:
    - The application shall **never pre-fill form fields** with low-confidence or single-engine extractions. Cognitive confirmation bias makes plausible errors (e.g., `1656` instead of `1966`) significantly more dangerous than leaving a blank field for human entry.
-2. **Dual-Engine Consensus Safety Gate**:
-   - Auto-write to the database is only permitted when two orthogonal OCR engines (Windows Native OCR + Tesseract LSTM) agree with 100% character identity on Class A documents.
+2. **Dual-Engine Consensus Safety Gate (PAUSED in Production)**:
+   - Auto-write to the database previously relied on two orthogonal OCR engines (Windows Native OCR + Tesseract LSTM) agreeing with 100% character identity on Class A documents.
+   - **Production Status:** Class A auto-accept is **paused in code**. The span-anchored forensic audit revealed that string equality alone admits non-optical errors (5.0% dropped units like `40 miles` $\to$ `40`, and 16.3% neighboring numbers bound incorrectly). All candidate facts route to the human verification queue with source optical crops until Step 4 attribution and unit validation are implemented.
 3. **Strict Document Ingestion Gating**:
    - All newly imported documents default to **Class B (Degraded / Manual Transcription)**. Class A requires explicit researcher confirmation. Any document can be re-flagged to Class B with 1 click.
 4. **Permanent Manual Transcription for Class B**:

@@ -161,6 +161,8 @@ Upload PDF (read in place, never copied)
 4. **Go/no-go bar:** Decided in writing before Phase 1 starts: what extraction accuracy is "good enough to build on."
 
 ### Phase 1 — Ingestion pipeline (4–5 weeks)
+> **Standing Ingestion Policy Note (October 6, 2026):** Class A consensus auto-accept is **paused in code**. Forensic analysis on 50 scanned monograph pages (`docs/specs/03_anchored_scorer_rules.md`) demonstrated that while optical character recognition achieves 0.0% false consensus, naive candidate agreement admits 25.0% corruptions due to dropped measurement units (5.0%, e.g., `40 miles` $\to$ `40`) and neighbor token displacements (16.3%). In production, all Class A extracted facts are routed to the human verification queue with source optical crops, keeping dual-engine agreement solely as a confidence score hint. Class B remains 100% manual review.
+
 1. Docling behind a background job queue, reading files in place; PyMuPDF fallback for parse failures.
 2. Per-file Zstandard+dictionary compression + `index.db`, exactly as tested. Ship a pre-trained dictionary; retrain on real data once Phase 0 corpus is available.
 3. Chunk by section; extraction pass with structured-output prompting (fixed schema).
