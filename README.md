@@ -15,7 +15,9 @@ docs/
 │   ├── architecture/        # Workstation specs, data root management, hardware matrix
 │   ├── engine/              # Native C++ engines (Extraction, Contradictions, Storage, Vector)
 │   ├── plans/               # MVP meeting plan & master engineering roadmaps
-│   └── security/            # Airgap privacy guarantees & DPAPI offline licensing
+│   ├── reports/             # Empirical benchmark reports & forensic audits (Reports 01–12)
+│   ├── security/            # Airgap privacy guarantees & DPAPI offline licensing
+│   └── specs/               # Pre-registered implementation specifications (Specs 01–04)
 └── domain/                  # Archaeological Knowledge Graph & Epistemology
     ├── PROBLEM_STATEMENT.md # "Connection crisis", dating clashes & LLM hallucination risk
     ├── PROJECT_OVERVIEW.md  # 3-layer grounding ontology (Finds -> Claims -> Evidence)
@@ -40,9 +42,13 @@ The native, air-gapped C++ research workstation:
 * **[`plans/`](desktop/plans/)**:
   - [`MVP_PLAN.md`](desktop/plans/MVP_PLAN.md): Focused meeting showcase MVP plan and Phase 0 extraction validation gates.
   - [`MASTER_PLAN.md`](desktop/plans/MASTER_PLAN.md): 15-feature long-term engineering and optimization roadmap.
+* **[`reports/`](desktop/reports/)**:
+  - Engineering benchmarks and empirical audit reports ([Reports 01–12](desktop/reports/README.md), 22-window forensic inspection).
 * **[`security/`](desktop/security/)**:
   - [`AIRGAP_PRIVACY.md`](desktop/security/AIRGAP_PRIVACY.md): 100% offline guarantee protecting confidential excavation findspots.
   - [`PRICING_SECURITY.md`](desktop/security/PRICING_SECURITY.md): Ed25519 digital signatures, Windows DPAPI hardware encryption, anti-rollback monotonic clock.
+* **[`specs/`](desktop/specs/)**:
+  - Pre-registered specifications ([Specs 01–04](desktop/specs/)): quantitative extraction grammar, real-OCR protocol, span-anchored scorer rules, and Step 4 candidate generator spec.
 
 ---
 

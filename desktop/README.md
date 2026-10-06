@@ -39,3 +39,10 @@ Engineering benchmarks, empirical evaluation reports, and architectural decision
 * **[`03_vlm_degraded_scan_feasibility_investigation.md`](reports/03_vlm_degraded_scan_feasibility_investigation.md)**: Local VLM feasibility on 1970s porous letterpress; visual patch downsampling resolution collapse; 4/7 silent corruptions; standing principle ("A blank field is safer than a plausible-looking wrong one; assistive pre-fill rejected"); Tier 3 triggered (Class B permanently manual).
 * **[`12_phase2_step3_entity_extraction_benchmark_report.md`](reports/12_phase2_step3_entity_extraction_benchmark_report.md)**: Span-anchored forensic audit of candidate-picker errors (22/80) vs optical misreads (0/80).
 * **[`README.md`](reports/README.md)**: Master report index and summary of Phase 0 through Phase 2 engineering reports.
+
+### 📐 6. [`specs/`](specs/)
+Pre-registered engineering specifications and evaluation protocols:
+* **[`01_phase2_step3_quantitative_entity_extraction_spec.md`](specs/01_phase2_step3_quantitative_entity_extraction_spec.md)**: Mention-level quantitative extraction grammar, astronomical date normalization, OCR anomaly flagging.
+* **[`02_real_ocr_plausibility_evaluation_protocol.md`](specs/02_real_ocr_plausibility_evaluation_protocol.md)**: Real-OCR evaluation methodology and 166-fact plausibility benchmark protocol.
+* **[`03_anchored_scorer_rules.md`](specs/03_anchored_scorer_rules.md)**: Deterministic span-anchored scoring rules, error classification taxonomy (Unit Lost, Partial, Displaced, Absent, Optical Misread).
+* **[`04_phase2_step4_candidate_generator_and_attribution_spec.md`](specs/04_phase2_step4_candidate_generator_and_attribution_spec.md)**: Candidate generation data contract, semantic slot attribution, rejection rules, and 60-case sealed fail-only gate.
