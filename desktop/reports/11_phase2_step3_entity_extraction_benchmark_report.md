@@ -8,6 +8,7 @@
 > 1. **Specification v2.0:** `docs/specs/01_phase2_step3_quantitative_entity_extraction_spec.md`
 > 2. **Sealed Held-Out Dataset (60 real corpus cases):** `tests/eval_entity_extraction_held_out.hpp` (SHA-256: `0AA84942C33B9330B726A4777816F061313BB879C2B29FF9C8A3F95DEFCC9A4F`)
 > 3. **Real-OCR Plausibility Benchmark Protocol (166 facts):** `docs/specs/02_real_ocr_plausibility_evaluation_protocol.md`
+> *(Step 4 Note on 166-Fact Partition: 55 in-scope archaeological findings, 108 out-of-scope calendar dates, and 3 non-finding citations [#37, #144, #124] reclassified to REJECT_NON_FINDING).*
 
 **Date:** 2026-10-05  
 **Component:** `engine/extraction/entity_extractor.hpp`  

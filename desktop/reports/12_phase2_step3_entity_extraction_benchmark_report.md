@@ -57,6 +57,8 @@ The ground truth contains 166 facts across 50 pages per engine. Under current Sp
 | Counts | 21 | 21 | 0 |
 | **Total** | **166** | **55** | **111** |
 
+> **Step 4 Reclassification Note (Post-Step 3 Audit):** In Phase 2 Step 4, Facts #37 (14.6.1947), #144 (1956:81), and #124 (1820-1903) were reclassified from out-of-scope bare years to REJECT_NON_FINDING (bibliographical citations and scholar lifespans). This adjusts the full corpus accounting from 111 bare years to 108 out-of-scope dates + 3 rejected citations + 55 in-scope findings (= 166). The authoritative 55-fact in-scope denominator for Step 3 pipeline recall is unchanged.
+
 Across the entire benchmark, **111 of 166 facts (66.9%)** are bare 4-digit years:
 - **Class A (Rajan, Chakrabarti):** 85 of 104 facts (**81.7%**) are bare years, leaving **19 in-scope Class A facts**.
 - **Class B (Sankalia):** 26 of 62 facts (**41.9%**) are bare years, leaving **36 in-scope Class B facts**.

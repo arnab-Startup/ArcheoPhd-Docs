@@ -9,21 +9,21 @@
 
 | # | Feature | Experiment | MVP | Optimization |
 |---|---------|:----------:|:---:|:------------:|
-| F1 | Data Storage & Compression | ✅ DONE | ✅ DONE | 🔜 NEXT |
-| F2 | PDF Ingestion | 🔜 NEXT | ⏳ | ⏳ |
-| F3 | Text Chunking | ⏳ | ⏳ | ⏳ |
-| F4 | Vector Embeddings | ⏳ | ⏳ | ⏳ |
-| F5 | Semantic Search | ⏳ | ⏳ | ⏳ |
-| F6 | Local AI / RAG | ⏳ | ⏳ | ⏳ |
-| F7 | Contradiction Detection | ⏳ | ⏳ | ⏳ |
-| F8 | Harris Matrix & Stratigraphy | ⏳ | ⏳ | ⏳ |
-| F9 | Chronology Engine | ⏳ | ⏳ | ⏳ |
-| F10 | Geographic & Map | ⏳ | ⏳ | ⏳ |
-| F11 | Evidence & Literature Graph | ⏳ | ⏳ | ⏳ |
-| F12 | Thesis Writing Assistant | ⏳ | ⏳ | ⏳ |
-| F13 | Export Engine | ⏳ | ⏳ | ⏳ |
-| F14 | Research Analytics | ⏳ | ⏳ | ⏳ |
-| F15 | Auth, Projects & Settings | ⏳ | ⏳ | ⏳ |
+| F1 | Data Storage & Compression | ✅ DONE | ✅ DONE | ✅ DONE |
+| F2 | PDF Ingestion & OCR Gating | ✅ DONE | ✅ DONE | ✅ DONE |
+| F3 | Text Chunking & Extraction | ✅ DONE | ✅ DONE | ✅ DONE |
+| F4 | Vector Embeddings (Nomic 128) | ✅ DONE | ✅ DONE | ✅ DONE |
+| F5 | Hybrid Semantic & BM25 Search | ✅ DONE | ✅ DONE | ✅ DONE |
+| F6 | Local AI Reasoning (Qwen 7B) | ✅ DONE | ✅ DONE | ✅ DONE |
+| F7 | Contradiction Detection Engine | ✅ DONE | ✅ DONE | ✅ DONE |
+| F8 | Harris Matrix & Stratigraphy | ✅ DONE | ✅ DONE | ✅ DONE |
+| F9 | Chronology Engine (Phase 3) | ✅ DONE | ✅ DONE | ✅ DONE |
+| F10 | Geographic & Map Layer (Phase 3) | ✅ DONE | ✅ DONE | ✅ DONE |
+| F11 | Evidence & Literature Graph (Phase 3) | ✅ DONE | ✅ DONE | ✅ DONE |
+| F12 | Thesis Auditor & Defense Prep | ✅ DONE | ✅ DONE | ✅ DONE |
+| F13 | Dissertation Dossier Export (Phase 3) | ✅ DONE | ✅ DONE | ✅ DONE |
+| F14 | Research Analytics & Dashboard | ✅ DONE | ✅ DONE | ✅ DONE |
+| F15 | Auth, Projects & Data Root Manager | ✅ DONE | ✅ DONE | ✅ DONE |
 
 ---
 
@@ -287,13 +287,13 @@ ArchaeoPhD-Data/
 ## F14 — Research Analytics
 
 | Phase | Step | Goal | Status |
-|-------|------|------|--------|
-| MVP | 14.1.1 | Dashboard counts: claims, sources, sites, contradictions | ⏳ |
-| MVP | 14.1.2 | Activity log: recent actions | ⏳ |
-| MVP | 14.1.3 | Research gap detection: topics with few sources | ⏳ |
-| MVP | 14.1.4 | Connect to Dashboard.jsx, ResearchAnalytics.jsx, ActivitySummary.jsx, ResearchInbox.jsx, Notifications.jsx | ⏳ |
-| Optimization | 14.2.1 | Progress tracking over time | ⏳ |
-| Optimization | 14.2.2 | Coverage heatmap (well-researched periods) | ⏳ |
+|-------|------|------|:------:|
+| MVP | 14.1.1 | Dashboard counts: claims, sources, sites, contradictions | ✅ DONE |
+| MVP | 14.1.2 | Activity log: recent actions | ✅ DONE |
+| MVP | 14.1.3 | Research gap detection: topics with few sources | ✅ DONE |
+| MVP | 14.1.4 | Connect to Dashboard.jsx, ResearchAnalytics.jsx, ActivitySummary.jsx, ResearchInbox.jsx, Notifications.jsx | ✅ DONE |
+| Optimization | 14.2.1 | Progress tracking over time | ✅ DONE |
+| Optimization | 14.2.2 | Coverage heatmap (well-researched periods) | ✅ DONE |
 
 ---
 

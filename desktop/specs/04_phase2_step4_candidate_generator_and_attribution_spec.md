@@ -30,21 +30,30 @@ The objective of **Step 4** is to implement a **Candidate Generator & Attributio
 To eliminate test-set contamination and prevent circular data dredging:
 
 ### 2.1 Development Set (`tests/step4_eval/step4_dev_set.json`)
-- **Composition ($N = 27$):**
-  - **All 22 Forensic Audit Facts** (`hand_audit_22.json` / `false_consensus_22_windows.md`) across five failure classes:
-    - `UNIT_LOST`: Facts #51 (`6 m`), #93 (`40 miles`), #151 (`30%`), #153 (`10%`).
-    - `PARTIAL`: Fact #143 (`1631-1641`).
-    - `REJECTED_NON_FINDING`: Fact #144 (`1956:81` — Wheeler citation year/page relabeled from PARTIAL to Rule 2 Bibliographical Citation rejection).
-    - `DISPLACED`: Facts #37 (`1947` vs `10,000`), #65 (`1545-48` vs `1538`), #84 (`1780` vs `1763`), #95 (`1927` vs `1923`), #97 (`5199 BC` vs `3700 BC`), #117 (`1816` vs `1788-1865`), #119 (`1839` vs `1819`), #124 (`1820-1903` vs `1859`), #135 (`1870` vs `1865`), #139 (`1542` vs `1506-1552`), #148 (`1952` vs `1954`), #152 (`2 hours` vs `181`), #154 (`3%` vs `10%`).
-    - `ABSENT`: Facts #55 (`415 AD`), #56 (`428 AD`), #73 (`1712`).
-    - `CORRECT`: Clean single-value baselines.
+- **Composition ($N = 48$):**
+  - **All 22 Forensic Audit Facts** (`hand_audit_22.json` / `generate_audit_table.cjs`) across reconciled failure classes:
+    - `SCORER_TOKEN_DISPLACEMENT` (9 facts): Facts #65 (`1545-48` vs `1538`), #84 (`1780` vs `1763`), #95 (`1927` vs `1923`), #97 (`5199 BC` vs `3700 BC`), #117 (`1816` vs `1788-1865`), #119 (`1839` vs `1819`), #135 (`1870` vs `1865`), #139 (`1542` vs `1506-1552`), #152 (`2 hours` vs `181`).
+    - `UNIT_LOST` (4 facts): Facts #51 (`6 m`), #93 (`40 miles`), #151 (`30%`), #153 (`10%`).
+    - `AGREED_WRONG_CANDIDATE_GT_ABSENT` (3 facts): Facts #55 (`415 AD`), #56 (`428 AD`), #73 (`1712`).
+    - `BIBLIO_CITATION_REJECTION` (3 facts): Fact #37 (`14.6.1947` — newspaper citation in footnote), Fact #144 (`1956:81` — Wheeler author-date citation), and Fact #124 (`1820-1903` — Herbert Spencer biographical lifespan). All three require `REJECT_NON_FINDING` under Rule 2 (Bibliographical & Biographical Non-Finding Scope).
+    - `AMBIGUOUS_MULTI_CANDIDATE` (2 facts): Facts #148 (`1952` vs `1954`) and #154 (`3%` vs `10%`).
+    - `PARTIAL_RANGE_TRUNCATION` (1 fact): Fact #143 (`1631-1641`).
+    - *Sum:* $9 + 4 + 3 + 3 + 2 + 1 = 22$.
+  - **Ground Truth Benchmark Accounting Clarification:**
+    The 50-page benchmark contains 166 total recorded facts: 55 in-scope archaeological findings (20 measurements, 21 counts, 14 era-bearing dates) and 111 out-of-scope calendar years and ranges lacking era tokens. Facts #37 (`14.6.1947`), #144 (`1956:81`), and #124 (`1820-1903`) were all originally counted within the 111 out-of-scope non-era date set (neither #37, #144, nor #124 possessed BC/AD/BP markers). Reclassifying them as `REJECT_NON_FINDING` adjusts the full 166-fact accounting to: 55 in-scope findings, 108 out-of-scope historical dates, and 3 rejected bibliographic/biographical non-findings (total = 166). The **authoritative in-scope denominator for Step 3 pipeline recall remains exactly 55 facts** (unaltered).
   - **5 Targeted Challenge Cases:**
     - `DEV-23`: Spaced OCR footnote numeral (`3.5 m. 14` / `3.5 m 14`).
     - `DEV-24`: Historical excavation season noun phrase (`Kenyon 1957 excavations`) as positive date.
     - `DEV-25`: Bibliographical author-date citation (`Kenyon (1957: 42)`) as negative non-finding.
     - `DEV-26`: Clausal multi-candidate ambiguity (competing counts 45 and 12 with no distinguishing query anchor).
     - `DEV-27`: Table cell with column-header unit (`rajan_p110`, header `Depth (m)` and cell `1.85`).
-- **Usage:** Generator rules, regex grammars, clausal parsers, and disambiguation heuristics are developed, tuned, and tested against this set freely.
+  - **11 Synthetic Rule Challenge Cases:**
+    - `DEV-28` to `DEV-33`: Synthetic non-finding negative controls covering Rule 1 (folios/xrefs), Rule 3 (contours/grids), and Rule 4 (accessions/plate-figs).
+    - `DEV-34` to `DEV-38`: Synthetic positive controls covering Rule 5 (fused footnote) and clean findings (`1.25 m`, `1177 BCE`, `694 bifaces`, `12 cm`).
+  - **10 Real-Page Context & Synthetic Table Cases (Drawn from the 16 Development Pages):**
+    - `DEV-39` to `DEV-44`, `DEV-48`: Unambiguous real monograph findings covering single CE calendar years (`1973`, `1979`, `1606`, `1544`, `1575`), calendar ranges (`1351-1388`), and biographical lifespan non-finding (`DEV-42`: `Fr Roberto de Nobili (1577-1655)` $\to$ `REJECT_NON_FINDING`).
+    - `DEV-45` to `DEV-47`: Synthetic pipe-formatted (`|`) representations of multi-line table text (`rajan_p110`), covering table cell with physical unit (`50,000 BP`), table cell invention year (`1949`), and table cell duration span (`7,400 years`). *Note: These cases validate pipe-delimited data extraction; they do not claim real-world OCR unaligned multi-line table parsing.*
+- **Usage:** Generator rules, regex grammars, clausal parsers, and disambiguation heuristics are developed and tuned strictly against this 48-case set and the 16 development pages.
 
 ### 2.2 Sealed Benchmark Set (`tests/step4_eval/step4_sealed_benchmark.json`)
 - **Composition ($N = 60$, 50/50 Balanced):**
@@ -138,6 +147,29 @@ struct AttributedCandidate {
    - **Trigger Condition:** If within a single clausal segment, multiple numeric tokens match the same dimension type (e.g., two dates `1947` and `10,000`, or two depths `3.5 m` and `6.2 m`), and the syntactic context contains no distinct prepositional or relational head-word anchor directly distinguishing them, the generator **MUST NOT** guess or default to the nearest token.
    - **Action:** The generator marks `status = AMBIGUOUS_MULTI_CANDIDATE`, bundles competing candidates with their respective spans, and routes the cluster directly to the human verification queue for disambiguation.
 
+5. **Count-Noun Binding Rule for `ARTIFACT_COUNT`:**
+   - For artifact tallies (`property_type == ARTIFACT_COUNT`), bare integers without an attached, bound archaeological head noun (e.g. `bifaces`, `microliths`, `potsherds`, `cores`, `beads`, `axes`, `blades`) are ambiguous and ungrounded.
+   - The generator must bind the accompanying head noun into the candidate structure (`head_noun`). A candidate emitted with an empty or missing noun for an artifact tally fails verification as `UNBOUND_COUNT_NOUN`.
+
+6. **Harness Ordered-Check Evaluation Hierarchy:**
+   To guarantee diagnostic accuracy and prevent misclassification of failure modes, the evaluation harness must apply checks in strict hierarchical order:
+   1. *Unanchored / Absent GT Check (`ROUTE_AMBIGUOUS_OR_UNANCHORED`):* If picker emits any candidate $\to$ `FALSE_INCLUSION_ON_ABSENT_GT`.
+   2. *Non-Finding Rejection Check (`REJECT_NON_FINDING`):* If picker emits any candidate $\to$ `NON_FINDING_FALSE_INCLUSION`.
+   3. *Clausal Ambiguity Check (`FLAG_AMBIGUOUS_MULTI_CANDIDATE`):* If picker emits an unbundled candidate $\to$ `AMBIGUOUS_UNBUNDLED`.
+   4. *Targeted Extraction Check (`EXTRACT_ATTRIBUTED`):*
+      - **Step 4A (Value Match First):** If numeric value mismatches ground truth $\to$ `DISPLACED` (or `PARTIAL` for range truncation). Must precede unit checking to prevent displaced numbers from being mislabeled as unit loss.
+      - **Step 4B (Unit & Head Noun Check Second):** Evaluated strictly after value matches: missing required physical unit $\to$ `UNIT_LOST`; missing required artifact head noun $\to$ `UNBOUND_COUNT_NOUN`.
+      - **Step 4C (Full Verification):** If both value and unit/noun match $\to$ `CORRECT`.
+
+7. **Chronological Duration (`CHRONOLOGICAL_DURATION`) & Radiocarbon BP Advisory:**
+   - **Chronological Duration:** Sequences expressing elapsed time spans or tree-ring chronologies without an epoch datum (e.g. `7,400 years`, `a period of 5 years`) belong to the property class `CHRONOLOGICAL_DURATION` with normalized unit `years` (or `yr`). They are strictly distinct from point-in-time historical calendar dates (`HISTORICAL_DATE`) or radiometric determinations (`RADIOMETRIC_DATE`). A query targeting a calendar date (e.g. reign accession) must not accept a duration span.
+   - **Radiocarbon BP Advisory:** Every radiocarbon extraction binding `BP` or `B.P.` must attach the metadata advisory flag `UNCALIBRATED_RADIOCARBON_BP` (or note tree-ring calibration status `cal BP` under Spec v2 conventions) to alert downstream stratigraphic consumers that uncalibrated radiocarbon years before present (datum 1950 CE) require dendrochronological calibration.
+
+8. **Scholar Lifespan Suppression Rule (Rule 2.1 — Biographical Metadata) & Regnal Range Limitation:**
+   - **Syntactic Structure:** A parenthesized 4-digit date range following a capitalized proper person name `[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*\s*\(([12]\d{3})\s*[-–]\s*([12]\d{3})\)` represents a personal biographical lifespan (`PERSON_LIFESPAN`), NOT an archaeological stratum date or excavation finding.
+   - **Operational Rule:** Person lifespans are classified as biographical non-findings and suppressed under Rule 2 (`REJECT_NON_FINDING`). When a sentence contains both a scholar lifespan and an event date (e.g. `C.J. Thomsen (1788-1865) was invited in 1816` or `St Francis Xavier (1506-1552), who arrived in Goa in 1542`), the lifespan is suppressed, permitting the clausal event verb (`invited in 1816`, `arrived in 1542`) to bind the true event year without being displaced.
+   - **Known Surface Syntax Limitation (Regnal Ranges vs. Scholar Lifespans):** A purely surface-syntactic grammar cannot distinguish an ancient monarch's regnal reign span (e.g. `Firuz Shah Tughlak (1351-1388)`, which is an archaeological finding) from a modern scholar's biographical lifespan (e.g. `Herbert Spencer (1820-1903)` or `Roberto de Nobili (1577-1655)`, which is historiographical metadata) without external entity knowledge or title gazetteers. Uniformly suppressing `Name (YYYY-YYYY)` resolves scholar displacement but causes regnal ranges (DEV-41) to be masked. This is recorded as a known architectural limitation of regular grammar extraction. **Benchmark treatment:** Regnal reign ranges formatted as `[King Name] (YYYY-YYYY)` will fail under the current grammar because the lifespan suppression rule treats them as non-findings to avoid biographical false inclusions; monarch name whitelists must not be tuned into the generator.
+
 ---
 
 ## 4. Explicit Rejection Rules (Noise Suppression)
@@ -147,7 +179,7 @@ The generator must enforce 5 explicit suppression categories:
 | Category | Semantic Context | Example Patterns Suppressed | Target Status |
 | :--- | :--- | :--- | :--- |
 | **1. Page Numbers** | Folio headers, footers, pagination in field diaries, and page cross-references inside narrative. | `History of Archaeology 16`, `Field Conservation 181`, `on page 181`, `sheet 50`, `pp. 24-28` | `REJECTED_NON_FINDING` |
-| **2. Bibliography Years** | Author-date citations, bibliographic imprints, journal volume dates, modern institutional reports.<br>*(Context Rule: Excavation campaign phrases like "Kenyon 1957 excavations" are preserved as historical dates; parenthetical or colon-page citations like "Kenyon (1957: 42)" are suppressed).* | `Kenyon (1957: 42)`, `Wheeler (1946)`, `Allchin (1968)`, `Amsterdam in 1780`, `1971 report`, `ASI in 1985` | `REJECTED_NON_FINDING` |
+| **2. Bibliographic & Biographical Metadata** | (a) Author-date citations, (b) journal volume-year imprints, (c) newspaper footnote citations, (d) biographical scholar lifespans.<br>*(Context Rule: Excavation campaign phrases like "Kenyon 1957 excavations" are preserved as historical dates; parenthetical or colon-page citations like "Kenyon (1957: 42)", journal imprints like "7 (1785): 323-32", and lifespans like "Spencer (1820-1903)" are suppressed).* | `Kenyon (1957: 42)`, `Wheeler (1946)`, `7 (1785): 323-32`, `vol. 4, 1912, pp. 12-18`, `Daily Mail, 14.6.1947`, `Herbert Spencer (1820-1903)` | `REJECTED_NON_FINDING` |
 | **3. Contour Intervals** | Topographic elevation contours, bathymetric tracklines, survey transect spacing, balk grid squares. | `contour interval of 5 m`, `transects at 20 m intervals`, `grid 10 x 10 m`, `scale 1:1,000` | `REJECTED_NON_FINDING` |
 | **4. Catalog & Accession IDs** | Specimen tags, museum inventory numbers, plate/figure indices adjacent to finding dimensions. | `Specimen No. 104`, `Plate 24, Fig. 5`, `Acc. 4501`, `Gazetteer Entry No. 84`, `Figure Cat. 12` | `REJECTED_NON_FINDING` |
 | **5. Footnote Markers** | Numeric and Roman superscripts, bracketed note indices, numerals fused to sentence periods, or OCR-spaced footnote numerals. | `depth reached 3.5 m.14`, `3.5 m. 14`, `3.5 m 14`, `survey party.[5]`, `footnote 8`, `note (iv)` | `REJECTED_NON_FINDING` |

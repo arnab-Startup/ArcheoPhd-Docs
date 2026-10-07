@@ -197,6 +197,7 @@ Evaluation is strictly partitioned into three decoupled datasets to eliminate ci
 - **Ground Truth Distribution:**
   * 119 verified correct facts (consensus / ground truth).
   * 47 true OCR errors / corruptions (digit drops, range fusions, letter substitutions).
+  * Note on Date Partition (Step 4 Audit): Of the 166 facts, 55 are in-scope archaeological quantities (14 era dates, 20 measurements, 21 counts); 108 are out-of-scope historical calendar dates; and 3 (Facts #37, #144, #124) are non-finding bibliographic/biographical citations reclassified in Step 4 to REJECT_NON_FINDING. The 55 in-scope recall denominator remains unaltered.
 - **Protocol:**
   * Run the extraction pipeline on raw OCR text outputs.
   * Evaluate Plausibility Flag Sensitivity (Recall on the 47 corrupted facts):
