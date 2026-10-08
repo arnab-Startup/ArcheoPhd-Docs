@@ -3,22 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ArchaeoPhD: Technical Architecture Overview</title>
+<title>ArchaeoPhD: Technical Architecture Overview (Monochrome)</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@400;600&display=swap');
 
   :root {
-    --primary: #0f2b48;
-    --primary-light: #1a426e;
-    --accent: #b45309;
-    --accent-light: #fef3c7;
-    --text-main: #1e293b;
-    --text-muted: #475569;
-    --bg-card: #f8fafc;
-    --border-color: #cbd5e1;
-    --border-subtle: #e2e8f0;
-    --tag-bg: #e0e7ff;
-    --tag-text: #3730a3;
+    --text-primary: #000000;
+    --text-secondary: #222222;
+    --text-muted: #555555;
+    --border-thick: 2px solid #000000;
+    --border-thin: 1px solid #000000;
+    --border-light: 1px solid #cccccc;
+    --bg-page: #ffffff;
+    --bg-subtle: #f9f9f9;
   }
 
   * {
@@ -28,24 +25,24 @@
   }
 
   body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    color: var(--text-main);
-    background-color: #f1f5f9;
-    line-height: 1.45;
-    font-size: 13px;
+    font-family: 'Crimson Pro', 'Times New Roman', Times, Georgia, serif;
+    color: var(--text-primary);
+    background-color: #e5e5e5;
+    line-height: 1.42;
+    font-size: 13.5px;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
 
-  /* Page container strictly sized for standard A4 */
+  /* Fixed A4 Page Container */
   .a4-page {
     width: 210mm;
     min-height: 297mm;
     max-height: 297mm;
     padding: 16mm 18mm 14mm 18mm;
     margin: 15mm auto;
-    background: #ffffff;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    background: var(--bg-page);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
     position: relative;
     overflow: hidden;
     display: flex;
@@ -75,393 +72,332 @@
     flex: 1;
   }
 
-  /* Header styles */
+  /* Academic Document Header */
   .doc-header {
-    border-bottom: 2px solid var(--primary);
-    padding-bottom: 10px;
-    margin-bottom: 14px;
+    border-top: var(--border-thick);
+    border-bottom: var(--border-thin);
+    padding: 8px 0;
+    margin-bottom: 12px;
   }
 
-  .doc-header-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-  }
-
-  .title-group h1 {
-    font-size: 21px;
-    font-weight: 800;
-    color: var(--primary);
-    letter-spacing: -0.02em;
-    line-height: 1.15;
-  }
-
-  .title-group .subtitle {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--accent);
-    margin-top: 2px;
-    font-style: italic;
-  }
-
-  .badge-tag {
-    background: var(--primary);
-    color: #ffffff;
-    font-size: 10px;
+  .header-main-title {
+    font-size: 20px;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    padding: 4px 8px;
-    border-radius: 4px;
-    white-space: nowrap;
+    letter-spacing: 0.04em;
+    line-height: 1.2;
+    text-align: center;
+    color: var(--text-primary);
   }
 
-  .metadata-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-    background: var(--bg-card);
-    border: 1px solid var(--border-subtle);
-    border-radius: 6px;
-    padding: 6px 10px;
+  .header-subtitle {
+    font-size: 13px;
+    font-style: italic;
+    text-align: center;
+    margin-top: 3px;
+    color: var(--text-secondary);
+  }
+
+  .meta-table {
+    width: 100%;
     margin-top: 8px;
+    border-top: var(--border-thin);
+    border-bottom: var(--border-thin);
     font-size: 11px;
+    font-family: 'Crimson Pro', Georgia, serif;
+    border-collapse: collapse;
   }
 
-  .metadata-item span.label {
-    font-weight: 600;
-    color: var(--text-muted);
+  .meta-table td {
+    padding: 3px 6px;
+    vertical-align: middle;
+  }
+
+  .meta-label {
+    font-weight: 700;
     text-transform: uppercase;
-    font-size: 9px;
-    display: block;
+    font-size: 9.5px;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
   }
 
-  .metadata-item span.val {
+  .meta-val {
     font-weight: 600;
-    color: var(--primary);
+    color: var(--text-primary);
   }
 
   /* Section Headings */
-  h2.section-title {
-    font-size: 14px;
+  h2.section-heading {
+    font-size: 13.5px;
     font-weight: 700;
-    color: var(--primary);
-    border-left: 4px solid var(--primary);
-    padding-left: 8px;
-    margin: 12px 0 8px 0;
     text-transform: uppercase;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.05em;
+    border-bottom: var(--border-thin);
+    padding-bottom: 2px;
+    margin: 12px 0 8px 0;
     display: flex;
-    align-items: center;
     justify-content: space-between;
   }
 
-  h3.subsection-title {
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--text-main);
-    margin: 8px 0 4px 0;
+  /* Pure B&W Callout Box */
+  .thesis-box {
+    border: var(--border-thick);
+    padding: 8px 12px;
+    margin: 8px 0 10px 0;
+    background: #ffffff;
+    font-size: 12.5px;
+    line-height: 1.4;
   }
 
-  p {
-    margin-bottom: 6px;
-    color: var(--text-main);
+  .thesis-box strong {
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    font-size: 11px;
+    display: block;
+    margin-bottom: 2px;
   }
 
-  /* Visual Architecture Flow Diagram */
-  .pipeline-card {
-    background: #0f172a;
-    color: #e2e8f0;
-    border-radius: 6px;
-    padding: 10px 14px;
-    margin: 10px 0;
+  /* ASCII / Monospace Flow Diagram (White background, Black border) */
+  .diagram-box {
+    border: var(--border-thin);
+    background: #ffffff;
+    padding: 8px 12px;
+    margin: 8px 0;
     font-family: 'JetBrains Mono', monospace;
     font-size: 11px;
-    line-height: 1.4;
-    border: 1px solid #1e293b;
+    line-height: 1.35;
+    color: #000000;
+    white-space: pre;
+    overflow-x: auto;
   }
 
-  .pipeline-card .highlight-gold {
-    color: #fbbf24;
-    font-weight: 600;
-  }
-
-  .pipeline-card .highlight-cyan {
-    color: #38bdf8;
-    font-weight: 600;
-  }
-
-  .pipeline-card .highlight-green {
-    color: #4ade80;
-    font-weight: 600;
-  }
-
-  /* Callout Quote Boxes */
-  .callout-box {
-    background: #eff6ff;
-    border-left: 3px solid #2563eb;
-    padding: 7px 10px;
-    border-radius: 0 4px 4px 0;
-    margin: 8px 0;
-    font-size: 11.5px;
-    color: #1e3a8a;
-  }
-
-  .callout-alert {
-    background: #fffbeb;
-    border-left: 3px solid #b45309;
-    padding: 7px 10px;
-    border-radius: 0 4px 4px 0;
-    margin: 8px 0;
-    font-size: 11.5px;
-    color: #78350f;
-  }
-
-  /* Comparison Lists and Cards */
-  .grid-2col {
+  /* Two Column Layout */
+  .two-column {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    gap: 12px;
     margin: 8px 0;
   }
 
-  .critique-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
+  .column-box {
+    border: var(--border-thin);
     padding: 8px 10px;
+    background: #ffffff;
   }
 
-  .critique-card.negative {
-    border-top: 3px solid #dc2626;
-  }
-
-  .critique-card.positive {
-    border-top: 3px solid #16a34a;
-  }
-
-  .critique-card h4 {
-    font-size: 11.5px;
+  .column-box h3 {
+    font-size: 12px;
     font-weight: 700;
-    margin-bottom: 4px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    border-bottom: var(--border-thin);
+    padding-bottom: 3px;
+    margin-bottom: 6px;
   }
 
-  .critique-card.negative h4 { color: #991b1b; }
-  .critique-card.positive h4 { color: #166534; }
-
-  ul.bullet-list {
+  /* Bullet List */
+  ul.academic-list {
     list-style-type: none;
     padding-left: 0;
   }
 
-  ul.bullet-list li {
+  ul.academic-list li {
     position: relative;
     padding-left: 14px;
-    margin-bottom: 5px;
-    font-size: 11.5px;
+    margin-bottom: 6px;
+    font-size: 12px;
+    line-height: 1.38;
   }
 
-  ul.bullet-list li::before {
-    content: "•";
+  ul.academic-list li::before {
+    content: "■";
     position: absolute;
     left: 2px;
-    color: var(--primary);
-    font-weight: bold;
+    top: 1px;
+    font-size: 7px;
+    color: #000000;
   }
 
-  ul.bullet-list li strong {
-    color: var(--primary);
+  ul.academic-list li strong {
+    font-weight: 700;
   }
 
-  /* Formal Data Table */
-  table.matrix-table {
+  /* Formal Booktabs LaTeX-Style Table (Strictly Black & White) */
+  table.booktabs {
     width: 100%;
     border-collapse: collapse;
     margin: 8px 0;
-    font-size: 11px;
-    background: #ffffff;
+    font-size: 11.5px;
+    line-height: 1.35;
   }
 
-  table.matrix-table th {
-    background: var(--primary);
-    color: #ffffff;
-    font-weight: 600;
+  table.booktabs thead tr {
+    border-top: var(--border-thick);
+    border-bottom: var(--border-thick);
+  }
+
+  table.booktabs th {
+    font-weight: 700;
     text-align: left;
-    padding: 6px 8px;
-    font-size: 10.5px;
-    letter-spacing: 0.02em;
+    padding: 5px 6px;
+    text-transform: uppercase;
+    font-size: 10px;
+    letter-spacing: 0.05em;
   }
 
-  table.matrix-table td {
-    padding: 5px 8px;
-    border-bottom: 1px solid var(--border-subtle);
+  table.booktabs tbody tr {
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  table.booktabs tbody tr:last-child {
+    border-bottom: var(--border-thick);
+  }
+
+  table.booktabs td {
+    padding: 4.5px 6px;
     vertical-align: top;
   }
 
-  table.matrix-table tr:nth-child(even) {
-    background: #f8fafc;
+  .mono-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
   }
 
-  table.matrix-table tr:hover {
-    background: #f1f5f9;
-  }
-
-  .badge-engine {
+  .badge-tag {
     font-family: 'JetBrains Mono', monospace;
     font-size: 9.5px;
+    border: var(--border-thin);
+    padding: 1px 4px;
+    display: inline-block;
     font-weight: 600;
-    padding: 2px 5px;
-    border-radius: 3px;
-    white-space: nowrap;
   }
 
-  .badge-cpp { background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
-  .badge-llm { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
-
-  .metric-badge {
-    font-family: 'JetBrains Mono', monospace;
-    font-weight: 700;
-    font-size: 10px;
-    color: #047857;
-    white-space: nowrap;
-  }
-
-  /* Page Footer */
+  /* Academic Footer */
   .doc-footer {
-    border-top: 1px solid var(--border-color);
-    padding-top: 6px;
+    border-top: var(--border-thick);
+    padding-top: 5px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 9.5px;
+    font-size: 10px;
+    font-style: italic;
     color: var(--text-muted);
   }
 
-  .doc-footer .confidential {
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
+  .doc-footer .page-number {
+    font-style: normal;
+    font-weight: 700;
+    color: var(--text-primary);
   }
 
-  /* Action Bar for Browser View */
+  /* Action Bar for On-Screen Viewing */
   .action-bar {
     max-width: 210mm;
     margin: 15px auto 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #0f172a;
-    padding: 10px 16px;
-    border-radius: 8px;
-    color: #fff;
+    background: #000000;
+    padding: 8px 14px;
+    color: #ffffff;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
   }
 
   .btn {
-    background: #2563eb;
-    color: #fff;
-    border: none;
-    padding: 7px 14px;
-    border-radius: 5px;
-    font-weight: 600;
-    font-size: 12px;
+    background: #ffffff;
+    color: #000000;
+    border: 1px solid #ffffff;
+    padding: 5px 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
     cursor: pointer;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
+    text-transform: uppercase;
   }
-  .btn:hover { background: #1d4ed8; }
-  .btn-gold { background: #d97706; }
-  .btn-gold:hover { background: #b45309; }
+  .btn:hover {
+    background: #000000;
+    color: #ffffff;
+  }
 </style>
 </head>
 <body>
 
 <div class="action-bar no-print">
   <div>
-    <strong>ArchaeoPhD Architecture Memorandum</strong> — Strictly 3 A4 Pages Formatted for Academic Review
+    [ARCHAEOPHD] MONOCHROME 3-PAGE TECHNICAL MEMORANDUM
   </div>
   <div style="display: flex; gap: 8px;">
-    <button class="btn btn-gold" onclick="window.print()">🖨️ Print / Save as PDF (3 Pages)</button>
-    <button class="btn" onclick="copyDocumentToClipboard()">📋 Copy Formatted Content</button>
+    <button class="btn" onclick="window.print()">Print / Save PDF (B&amp;W)</button>
+    <button class="btn" onclick="copyDocumentToClipboard()">Copy Plain Text</button>
   </div>
 </div>
 
 <!-- ===================================================================== -->
-<!-- PAGE 1: WHY THIS TECHNICAL APPROACH OVER OTHERS                       -->
+<!-- PAGE 1: WHY THIS TECHNICAL APPROACH OVER OTHERS (BLACK & WHITE)       -->
 <!-- ===================================================================== -->
 <div class="a4-page" id="page1">
   <div class="content-area">
     <div class="doc-header">
-      <div class="doc-header-top">
-        <div class="title-group">
-          <h1>ArchaeoPhD: Technical Architecture Overview</h1>
-          <div class="subtitle">Deterministic-Neural Dual Routing, Stratigraphic Graph Validation, and Air-Gapped Field Deployment</div>
-        </div>
-        <div class="badge-tag">Academic Technical Memorandum</div>
-      </div>
-      <div class="metadata-grid">
-        <div class="metadata-item">
-          <span class="label">Target Audience</span>
-          <span class="val">PhD Supervisor & Committee</span>
-        </div>
-        <div class="metadata-item">
-          <span class="label">Domain Scope</span>
-          <span class="val">Software Engineering Approach</span>
-        </div>
-        <div class="metadata-item">
-          <span class="label">Architecture Model</span>
-          <span class="val">Hybrid Native C++20 + Local LLM</span>
-        </div>
-        <div class="metadata-item">
-          <span class="label">Pagination Constraint</span>
-          <span class="val">Page 1 of 3 (Strict Limit)</span>
-        </div>
-      </div>
+      <div class="header-main-title">ArchaeoPhD: Technical Architecture Overview</div>
+      <div class="header-subtitle">Deterministic-Neural Dual Routing, Stratigraphic Graph Validation, and Air-Gapped Field Deployment</div>
+      <table class="meta-table">
+        <tr>
+          <td><span class="meta-label">Target:</span> <span class="meta-val">PhD Supervisor &amp; Doctoral Committee</span></td>
+          <td><span class="meta-label">Domain:</span> <span class="meta-val">Software Engineering Approach</span></td>
+          <td><span class="meta-label">Architecture:</span> <span class="meta-val">Hybrid C++20 + Local LLM</span></td>
+          <td style="text-align: right;"><span class="meta-label">Pagination:</span> <span class="meta-val">Page 1 of 3</span></td>
+        </tr>
+      </table>
     </div>
 
-    <div class="callout-box">
-      <strong>Core Engineering Thesis:</strong> Archaeological monograph ingestion requires 100% numerical fidelity, mathematical cycle detection, and complete data privacy under antiquities permits. Generic cloud LLMs fail on numerical drift and regulatory secrecy; pure regex fails on irregular historical syntax. ArchaeoPhD resolves this via a deterministic C++ fast path backed by a strictly governed, local neural arbitrator.
+    <div class="thesis-box">
+      <strong>Core Engineering Thesis:</strong>
+      Archaeological monograph ingestion demands 100% numerical fidelity, mathematical graph cycle detection, and strict data confidentiality under state antiquities permits. Generic cloud LLMs fail on silent numerical drift and regulatory secrecy; pure regex systems fail on irregular 19th-century prose syntax. ArchaeoPhD resolves this through a deterministic C++ fast path backed by a strictly governed, air-gapped local neural arbitrator.
     </div>
 
-    <h2 class="section-title">
-      <span>1. Rejection of Generic Cloud AI & Pure Regex Systems</span>
+    <h2 class="section-heading">
+      <span>1. Rejection of Generic Cloud AI &amp; Pure Regex Systems</span>
+      <span>[Page 1 / 3]</span>
     </h2>
 
-    <div class="grid-2col">
-      <div class="critique-card negative">
-        <h4>⚠️ Failure Modes of Generic Cloud AI (GPT-4 / Claude)</h4>
-        <ul class="bullet-list">
-          <li><strong>Probabilistic Hallucination & Numeric Drift:</strong> In archival OCR benchmarks, commercial LLMs silently alter critical excavation coordinates and depths (e.g., empirical tests transcribed <em>1966</em> as <em>1656</em>, and <em>20–40 cm</em> as <em>20–10 cm</em>). Numeric fidelity is non-negotiable.</li>
-          <li><strong>Antiquities Permit NDAs & Looting Risk:</strong> Excavation field reports contain unexcavated findspot GPS coordinates. Sending raw unredacted data to cloud APIs violates state antiquities permits and exposes vulnerable sites to illicit looting.</li>
-          <li><strong>Prohibitive Latency:</strong> Full-page cloud LLM inference takes 15–30s per page, making ingestion of 500-page excavation monographs computationally unviable.</li>
+    <div class="two-column">
+      <div class="column-box">
+        <h3>Failure Modes of Generic Cloud AI (GPT-4 / Claude)</h3>
+        <ul class="academic-list">
+          <li><strong>Probabilistic Hallucination &amp; Numerical Drift:</strong> In archival OCR benchmarks, commercial LLMs silently alter critical excavation coordinates and depth strata (empirical test transcribed <em>1966</em> as <em>1656</em>, and <em>20–40 cm</em> as <em>20–10 cm</em>). Numeric fidelity is non-negotiable.</li>
+          <li><strong>Antiquities Permit NDAs &amp; Looting Risk:</strong> Excavation field reports contain unexcavated findspot GPS coordinates. Sending unredacted data to cloud APIs violates state antiquities permits and exposes vulnerable sites to illicit looting.</li>
+          <li><strong>Prohibitive Latency:</strong> Full-page cloud LLM inference takes 15–30s per page, making batch ingestion of 500-page monographs computationally unviable.</li>
         </ul>
       </div>
 
-      <div class="critique-card negative">
-        <h4>⚠️ Failure Modes of Pure Regex / Traditional Parsers</h4>
-        <ul class="bullet-list">
+      <div class="column-box">
+        <h3>Failure Modes of Pure Regex / Traditional Parsers</h3>
+        <ul class="academic-list">
           <li><strong>Multi-Clausal Syntactic Collapse:</strong> Regular expressions fail catastrophically when a single sentence contains multiple chronological layers (e.g., <em>"pottery recovered in 1968, though Evans (1921) noted similar forms dating to 1450 BCE"</em>).</li>
           <li><strong>Multilingual Archaic Variations:</strong> Fails across historical German, French, and Victorian English excavation prose where syntactic structures and abbreviations diverge unpredictably.</li>
         </ul>
       </div>
     </div>
 
-    <h2 class="section-title">
+    <h2 class="section-heading">
       <span>2. The Chosen Architecture: Hybrid C++20 + Governed Local Neural Model</span>
     </h2>
 
-    <div class="pipeline-card">
-<strong>[ DOCUMENT PIPELINE DUAL-ROUTING ]</strong>
-Raw Scan / PDF ──► OCR & Layout Analysis
-  ├── <span class="highlight-green">Class A (Clean Typography)</span>  ──► <span class="highlight-cyan">Native C++ Engine (&lt;1 ms)</span> ──► High-Throughput Commit
-  └── <span class="highlight-gold">Class B (Degraded / 19th c.)</span> ──► <span class="highlight-gold">Split-Screen UI</span>           ──► Human Double-Entry (Zero Auto-Fill)
+    <div class="diagram-box">
++---------------------------------------------------------------------------------------+
+| ARCHIVAL INGESTION DUAL-ROUTING PIPELINE                                              |
++---------------------------------------------------------------------------------------+
+Raw Scan (PDF / TIFF) ---> OCR & Layout Analysis
+  |
+  +---> [Class A: Clean Typography]  ---> Native C++ Engine (<1 ms) ---> Deterministic Commit
+  |
+  +---> [Class B: Degraded Archival] ---> Split-Screen UI          ---> Human Double-Entry
+                                                                        (0% Auto-Fill Pre-fill)
     </div>
 
-    <ul class="bullet-list">
+    <ul class="academic-list">
       <li><strong>Native C++20 Fast Path:</strong> Executes deterministically in sub-millisecond time with zero heap allocation per token, extracting measurements, counts, and stratigraphic relationships via mathematical grammar parsers.</li>
       <li><strong>Governed Local Neural Model:</strong> An in-process, 4-bit quantized Qwen 2.5 7B GGUF (~4.4 GB) model, invoked solely for semantic ambiguity resolution. It runs fully offline with zero internet access required.</li>
       <li><strong>Strict Air-Gap Guarantee:</strong> The system opens zero outbound TCP/UDP ports. All UI communication executes through in-memory Win32 WebView2 IPC, ensuring complete compliance with antiquities permit NDAs in remote field excavation camps.</li>
@@ -469,124 +405,110 @@ Raw Scan / PDF ──► OCR & Layout Analysis
   </div>
 
   <div class="doc-footer">
-    <span class="confidential">ArchaeoPhD Doctoral Technical Briefing</span>
-    <span>CONFIDENTIAL & PROPRIETARY — FOR ADVISORY REVIEW ONLY</span>
-    <span>Page 1 of 3</span>
+    <span>ArchaeoPhD Technical Architecture Memorandum</span>
+    <span>CONFIDENTIAL &amp; PROPRIETARY &mdash; FOR ADVISORY REVIEW ONLY</span>
+    <span class="page-number">Page 1 of 3</span>
   </div>
 </div>
 
 <!-- ===================================================================== -->
-<!-- PAGE 2: DIVISION OF LABOR & BENCHMARKS                                -->
+<!-- PAGE 2: DIVISION OF LABOR & BENCHMARKS (BLACK & WHITE)                -->
 <!-- ===================================================================== -->
 <div class="a4-page" id="page2">
   <div class="content-area">
     <div class="doc-header">
-      <div class="doc-header-top">
-        <div class="title-group">
-          <h1>ArchaeoPhD: Technical Architecture Overview</h1>
-          <div class="subtitle">Algorithmic Division of Labor, Subsystem Benchmarks, and Hallucination Prevention</div>
-        </div>
-        <div class="badge-tag">Subsystem Benchmarks</div>
-      </div>
-      <div class="metadata-grid">
-        <div class="metadata-item">
-          <span class="label">Section</span>
-          <span class="val">Technical Division of Labor</span>
-        </div>
-        <div class="metadata-item">
-          <span class="label">Parsing Mode</span>
-          <span class="val">Deterministic vs Neural</span>
-        </div>
-        <div class="metadata-item">
-          <span class="label">Graph Invariant</span>
-          <span class="val">Steno's Law (Acyclic DAG)</span>
-        </div>
-        <div class="metadata-item">
-          <span class="label">Pagination Constraint</span>
-          <span class="val">Page 2 of 3 (Strict Limit)</span>
-        </div>
-      </div>
+      <div class="header-main-title">ArchaeoPhD: Technical Architecture Overview</div>
+      <div class="header-subtitle">Algorithmic Division of Labor, Subsystem Benchmarks, and Hallucination Prevention</div>
+      <table class="meta-table">
+        <tr>
+          <td><span class="meta-label">Section:</span> <span class="meta-val">Division of Labor</span></td>
+          <td><span class="meta-label">Parsing Mode:</span> <span class="meta-val">Deterministic vs Neural</span></td>
+          <td><span class="meta-label">Graph Invariant:</span> <span class="meta-val">Steno's Law (Acyclic DAG)</span></td>
+          <td style="text-align: right;"><span class="meta-label">Pagination:</span> <span class="meta-val">Page 2 of 3</span></td>
+        </tr>
+      </table>
     </div>
 
-    <h2 class="section-title">
+    <h2 class="section-heading">
       <span>1. Algorithmic Division of Labor Matrix</span>
+      <span>[Page 2 / 3]</span>
     </h2>
 
-    <p style="font-size: 11px; margin-bottom: 6px;">
+    <p style="font-size: 11.5px; margin-bottom: 6px;">
       Tasks are allocated strictly according to algorithmic guarantees: mathematical and syntactic proofs to native C++, and semantic arbitration to the governed local model.
     </p>
 
-    <table class="matrix-table">
+    <table class="booktabs">
       <thead>
         <tr>
           <th style="width: 25%;">Task / Domain Subsystem</th>
           <th style="width: 17%;">Engine Deployed</th>
-          <th style="width: 38%;">Algorithmic Implementation & Rationale</th>
+          <th style="width: 38%;">Algorithmic Implementation &amp; Rationale</th>
           <th style="width: 20%;">Empirical Benchmark</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td><strong>Physical Measurements</strong><br><span style="color: var(--text-muted); font-size: 10px;">Depths, elevations, dimensions</span></td>
-          <td><span class="badge-engine badge-cpp">C++20 Engine</span></td>
+          <td><strong>Physical Measurements</strong><br><span style="font-size: 10px; color: var(--text-muted);">Depths, elevations, dimensions</span></td>
+          <td><span class="badge-tag">C++20 Engine</span></td>
           <td>Deterministic grammar enforcing regular units (m, cm, mm, BP, %). Enforces 0% numeric corruption invariant.</td>
-          <td><span class="metric-badge">&lt; 1.0 ms / page</span></td>
+          <td><span class="mono-tag">&lt; 1.0 ms / page</span></td>
         </tr>
         <tr>
-          <td><strong>Artifact Count Binding</strong><br><span style="color: var(--text-muted); font-size: 10px;">Sherds, bifaces, lithics</span></td>
-          <td><span class="badge-engine badge-cpp">C++20 Engine</span></td>
+          <td><strong>Artifact Count Binding</strong><br><span style="font-size: 10px; color: var(--text-muted);">Sherds, bifaces, lithics</span></td>
+          <td><span class="badge-tag">C++20 Engine</span></td>
           <td>Rejects bare numbers unless syntactically bound to verified head nouns (e.g., <em>"14 rim sherds"</em>).</td>
-          <td><span class="metric-badge">&lt; 0.2 ms</span></td>
+          <td><span class="mono-tag">&lt; 0.2 ms</span></td>
         </tr>
         <tr>
-          <td><strong>Author Lifespan Masking</strong><br><span style="color: var(--text-muted); font-size: 10px;">Bibliographic noise suppression</span></td>
-          <td><span class="badge-engine badge-cpp">C++20 Engine</span></td>
+          <td><strong>Author Lifespan Masking</strong><br><span style="font-size: 10px; color: var(--text-muted);">Bibliographic noise suppression</span></td>
+          <td><span class="badge-tag">C++20 Engine</span></td>
           <td>Strips biographical date ranges (e.g., <em>Petrie (1853–1942)</em>) to prevent citation dates displacing archaeological strata.</td>
-          <td><span class="metric-badge">&lt; 0.1 ms</span></td>
+          <td><span class="mono-tag">&lt; 0.1 ms</span></td>
         </tr>
         <tr>
-          <td><strong>Stratigraphic Harris DAG</strong><br><span style="color: var(--text-muted); font-size: 10px;">Steno's Law physical sequencing</span></td>
-          <td><span class="badge-engine badge-cpp">C++20 Engine</span></td>
-          <td>Tarjan's Strongly Connected Components (SCC) $O(V+E)$ detects impossible physical cycles; Kahn's topological sort.</td>
-          <td><span class="metric-badge">&lt; 5.0 ms (1k nodes)</span></td>
+          <td><strong>Stratigraphic Harris DAG</strong><br><span style="font-size: 10px; color: var(--text-muted);">Steno's Law physical sequencing</span></td>
+          <td><span class="badge-tag">C++20 Engine</span></td>
+          <td>Tarjan's Strongly Connected Components (SCC) O(V+E) detects impossible physical cycles; Kahn's topological sort.</td>
+          <td><span class="mono-tag">&lt; 5.0 ms (1k nodes)</span></td>
         </tr>
         <tr>
-          <td><strong>Radiocarbon Splines</strong><br><span style="color: var(--text-muted); font-size: 10px;">14C non-linear calibration</span></td>
-          <td><span class="badge-engine badge-cpp">C++20 Engine</span></td>
-          <td>Continuous piecewise cubic splines on IntCal20 atmospheric calibration curves ($1\sigma / 2\sigma$ probability envelopes).</td>
-          <td><span class="metric-badge">&lt; 0.1 ms</span></td>
+          <td><strong>Radiocarbon Splines</strong><br><span style="font-size: 10px; color: var(--text-muted);">14C non-linear calibration</span></td>
+          <td><span class="badge-tag">C++20 Engine</span></td>
+          <td>Continuous piecewise cubic splines on IntCal20 atmospheric calibration curves (1&sigma; / 2&sigma; envelopes).</td>
+          <td><span class="mono-tag">&lt; 0.1 ms</span></td>
         </tr>
         <tr>
-          <td><strong>Hybrid Retrieval</strong><br><span style="color: var(--text-muted); font-size: 10px;">Dense vector + exact lexical</span></td>
-          <td><span class="badge-engine badge-cpp">C++20 Engine</span></td>
-          <td>128-dim Matryoshka dense vectors fused with in-process Okapi BM25 ($k=60$) to prevent geographic keyword drift.</td>
-          <td><span class="metric-badge">22.5 ms latency</span></td>
+          <td><strong>Hybrid Retrieval</strong><br><span style="font-size: 10px; color: var(--text-muted);">Dense vector + exact lexical</span></td>
+          <td><span class="badge-tag">C++20 Engine</span></td>
+          <td>128-dim Matryoshka dense vectors fused with in-process Okapi BM25 (k=60) to prevent geographic keyword drift.</td>
+          <td><span class="mono-tag">22.5 ms latency</span></td>
         </tr>
         <tr>
-          <td><strong>Clausal Semantic Disambiguation</strong><br><span style="color: var(--text-muted); font-size: 10px;">Multi-date sentence context</span></td>
-          <td><span class="badge-engine badge-llm">Qwen 2.5 7B</span></td>
+          <td><strong>Clausal Disambiguation</strong><br><span style="font-size: 10px; color: var(--text-muted);">Multi-date sentence context</span></td>
+          <td><span class="badge-tag">Qwen 2.5 7B</span></td>
           <td>Disambiguates competing historical vs. event dates in complex multi-clausal sentences across archival excavation prose.</td>
-          <td><span class="metric-badge">~3.8 s / call</span></td>
+          <td><span class="mono-tag">~3.8 s / call</span></td>
         </tr>
         <tr>
-          <td><strong>Historiographical Contradictions</strong><br><span style="color: var(--text-muted); font-size: 10px;">Opposing excavation hypotheses</span></td>
-          <td><span class="badge-engine badge-llm">Qwen 2.5 7B</span></td>
+          <td><strong>Historiographical Conflicts</strong><br><span style="font-size: 10px; color: var(--text-muted);">Opposing excavation hypotheses</span></td>
+          <td><span class="badge-tag">Qwen 2.5 7B</span></td>
           <td>Identifies methodological disputes and chronology conflicts across secondary publications via local KV-cached inference.</td>
-          <td><span class="metric-badge">~4.2 s (cached)</span></td>
+          <td><span class="mono-tag">~4.2 s (cached)</span></td>
         </tr>
       </tbody>
     </table>
 
-    <h2 class="section-title">
+    <h2 class="section-heading">
       <span>2. Governed Neural Arbitration: How Hallucinations Are Eliminated</span>
     </h2>
 
-    <div class="critique-card positive" style="margin-bottom: 8px;">
-      <h4>🛡️ The Selection-Only Guardrail Architecture</h4>
-      <p style="font-size: 11px; margin-bottom: 4px;">
+    <div class="column-box" style="margin-bottom: 8px;">
+      <h3>The Selection-Only Guardrail Architecture</h3>
+      <p style="font-size: 11.5px; margin-bottom: 4px;">
         Unlike consumer chat interfaces, ArchaeoPhD never permits the neural model to generate free-form text:
       </p>
-      <ul class="bullet-list">
+      <ul class="academic-list">
         <li><strong>Grammar-Constrained Output:</strong> The model receives the verbatim text snippet alongside the pre-extracted C++ candidate list. It is constrained via grammar sampling to output <em>only</em> the index integer of the verified candidate or <code>REJECT</code>. It cannot invent names or dates.</li>
         <li><strong>The Class B Invariant:</strong> <em>"A blank field is infinitely safer than a plausible wrong one."</em> On degraded 19th-century letterpress scans, automated pre-fill is locked out; the researcher transcribes via split-screen verification.</li>
       </ul>
@@ -594,50 +516,36 @@ Raw Scan / PDF ──► OCR & Layout Analysis
   </div>
 
   <div class="doc-footer">
-    <span class="confidential">ArchaeoPhD Doctoral Technical Briefing</span>
-    <span>CONFIDENTIAL & PROPRIETARY — FOR ADVISORY REVIEW ONLY</span>
-    <span>Page 2 of 3</span>
+    <span>ArchaeoPhD Technical Architecture Memorandum</span>
+    <span>CONFIDENTIAL &amp; PROPRIETARY &mdash; FOR ADVISORY REVIEW ONLY</span>
+    <span class="page-number">Page 2 of 3</span>
   </div>
 </div>
 
 <!-- ===================================================================== -->
-<!-- PAGE 3: FAILURE MODES & FUTURE EXPERIMENTAL HORIZONS                  -->
+<!-- PAGE 3: FAILURE MODES & FUTURE EXPERIMENTAL HORIZONS (BLACK & WHITE)  -->
 <!-- ===================================================================== -->
 <div class="a4-page" id="page3">
   <div class="content-area">
     <div class="doc-header">
-      <div class="doc-header-top">
-        <div class="title-group">
-          <h1>ArchaeoPhD: Technical Architecture Overview</h1>
-          <div class="subtitle">Failure Boundaries, Hardware Footprint, and Planned Doctoral Experiments</div>
-        </div>
-        <div class="badge-tag">Future Research Horizons</div>
-      </div>
-      <div class="metadata-grid">
-        <div class="metadata-item">
-          <span class="label">Section</span>
-          <span class="val">Critical Trade-Offs & Plans</span>
-        </div>
-        <div class="metadata-item">
-          <span class="label">Binary Size</span>
-          <span class="val">9.49 MB Standalone Win32</span>
-        </div>
-        <div class="metadata-item">
-          <span class="label">Local Weights</span>
-          <span class="val">4.45 GB Q4_K_M GGUF</span>
-        </div>
-        <div class="metadata-item">
-          <span class="label">Pagination Constraint</span>
-          <span class="val">Page 3 of 3 (Strict Limit)</span>
-        </div>
-      </div>
+      <div class="header-main-title">ArchaeoPhD: Technical Architecture Overview</div>
+      <div class="header-subtitle">Failure Boundaries, Hardware Footprint, and Planned Doctoral Experiments</div>
+      <table class="meta-table">
+        <tr>
+          <td><span class="meta-label">Section:</span> <span class="meta-val">Trade-Offs &amp; Roadmap</span></td>
+          <td><span class="meta-label">Binary:</span> <span class="meta-val">9.49 MB Win32 Standalone</span></td>
+          <td><span class="meta-label">Weights:</span> <span class="meta-val">4.45 GB Q4_K_M GGUF</span></td>
+          <td style="text-align: right;"><span class="meta-label">Pagination:</span> <span class="meta-val">Page 3 of 3</span></td>
+        </tr>
+      </table>
     </div>
 
-    <h2 class="section-title">
-      <span>1. Critical Failure Modes & Engineering Mitigations</span>
+    <h2 class="section-heading">
+      <span>1. Critical Failure Modes &amp; Engineering Mitigations</span>
+      <span>[Page 3 / 3]</span>
     </h2>
 
-    <ul class="bullet-list">
+    <ul class="academic-list">
       <li><strong>Where C++ Deterministic Rules Fail:</strong> Syntactic parsers cannot resolve unaligned multi-column OCR tables or damaged physical plates where typography is fragmented.<br>
       <em>Mitigation:</em> Flagged deterministically as <code>UNANCHORED_OR_DEGRADED</code> and routed to the human verification queue.</li>
       <li><strong>Where the Local Neural Model Fails:</strong> 3–5s execution latency and 4.4 GB RAM footprint. If unconstrained, it risks plausible confabulations.<br>
@@ -646,44 +554,48 @@ Raw Scan / PDF ──► OCR & Layout Analysis
       <em>Mitigation:</em> Dual-stage lexical BM25 filtering enforces exact trench identifiers, locus numbers, and site names.</li>
     </ul>
 
-    <div class="callout-alert" style="margin: 6px 0;">
-      <strong>Hardware Footprint Verification:</strong> Standalone Win32 executable = <strong>9.49 MB</strong> (<code>release/ArchaeoPhD.exe</code>). Neural model weights = <strong>4.45 GB</strong> total. Idle memory consumption = <strong>~65 MB RAM</strong>. Opens <strong>0 network sockets</strong>.
+    <div class="diagram-box" style="margin: 6px 0; font-size: 10.5px;">
+Hardware Footprint Verification:
+• Standalone Win32 Executable: 9.49 MB (release/ArchaeoPhD.exe)
+• Neural Model Weights:        4.45 GB total (Qwen2.5-7B-Instruct-Q4_K_M.gguf + nomic-embed-text)
+• Runtime Footprint:           ~65 MB base idle RAM | Opens 0 network sockets | Fully Air-Gapped
     </div>
 
-    <h2 class="section-title">
+    <h2 class="section-heading">
       <span>2. Planned Technical Experiments (Doctoral Research Roadmap)</span>
     </h2>
 
-    <div class="critique-card positive" style="margin-bottom: 6px;">
-      <h4>🔬 Experiment 1: Local Vision-Language Models (VLMs) on High-Resolution Letterpress Crops</h4>
-      <p style="font-size: 11px;">
+    <div class="column-box" style="margin-bottom: 6px;">
+      <h3>Experiment 1: Local Vision-Language Models (VLMs) on High-Resolution Letterpress Crops</h3>
+      <p style="font-size: 11.5px;">
         <strong>Engineering Goal:</strong> Test quantized local VLMs (Qwen2-VL 2B/7B GGUF) directly on segmented typographic plates from 19th-century monographs (e.g., Petrie, Evans). By processing high-resolution bounding crops rather than full pages, we eliminate token collapse and preserve sub-millimeter plate coordinates without cloud data leakage.
       </p>
     </div>
 
-    <div class="critique-card positive" style="margin-bottom: 6px;">
-      <h4>🔬 Experiment 2: 3D Volumetric Voxel Intersections in the Harris Matrix DAG</h4>
-      <p style="font-size: 11px;">
+    <div class="column-box" style="margin-bottom: 6px;">
+      <h3>Experiment 2: 3D Volumetric Voxel Intersections in the Harris Matrix DAG</h3>
+      <p style="font-size: 11.5px;">
         <strong>Engineering Goal:</strong> Bridge trench Structure-from-Motion (SfM) 3D photogrammetric meshes directly into the C++ Tarjan DAG solver. Instead of relying on manual 2D context sheets, the engine will compute 3D volumetric intersections between stratigraphic units to mathematically detect physical overlap violations.
       </p>
     </div>
 
-    <div class="critique-card positive" style="margin-bottom: 6px;">
-      <h4>🔬 Experiment 3: Native C++ Bayesian Sequential Calibration Engine (OxCal-in-C++)</h4>
-      <p style="font-size: 11px;">
+    <div class="column-box" style="margin-bottom: 6px;">
+      <h3>Experiment 3: Native C++ Bayesian Sequential Calibration Engine (OxCal-in-C++)</h3>
+      <p style="font-size: 11.5px;">
         <strong>Engineering Goal:</strong> Embed an in-process Markov Chain Monte Carlo (MCMC) Bayesian sampler directly into the native C++ binary. This fuses prior stratigraphic DAG topological constraints with posterior IntCal20 continuous radiocarbon probability envelopes on-device, replacing external commercial legacy software.
       </p>
     </div>
 
-    <div class="callout-box" style="margin-top: 6px;">
-      <strong>Summary for the Doctoral Committee:</strong> ArchaeoPhD pairs deterministic C++ engines for sub-millisecond mathematical precision and zero numerical drift with a governed, offline neural model for semantic nuance. The resulting architecture delivers a fully air-gapped, verifiable computational platform engineered for doctoral-level research.
+    <div class="thesis-box" style="margin-top: 6px;">
+      <strong>Summary for the Doctoral Advisory Committee:</strong>
+      ArchaeoPhD pairs deterministic C++ engines for sub-millisecond mathematical precision and zero numerical drift with a governed, offline neural model for semantic nuance. The resulting architecture delivers a fully air-gapped, verifiable computational platform engineered for doctoral-level research.
     </div>
   </div>
 
   <div class="doc-footer">
-    <span class="confidential">ArchaeoPhD Doctoral Technical Briefing</span>
-    <span>CONFIDENTIAL & PROPRIETARY — FOR ADVISORY REVIEW ONLY</span>
-    <span>Page 3 of 3</span>
+    <span>ArchaeoPhD Technical Architecture Memorandum</span>
+    <span>CONFIDENTIAL &amp; PROPRIETARY &mdash; FOR ADVISORY REVIEW ONLY</span>
+    <span class="page-number">Page 3 of 3</span>
   </div>
 </div>
 
@@ -691,7 +603,7 @@ Raw Scan / PDF ──► OCR & Layout Analysis
 function copyDocumentToClipboard() {
   const content = document.body.innerText;
   navigator.clipboard.writeText(content).then(() => {
-    alert("Full 3-page structured text copied to clipboard! You can now paste directly into Google Docs.");
+    alert("Full monochrome 3-page structured text copied to clipboard!");
   }).catch(err => {
     console.error("Failed to copy:", err);
   });

@@ -1,31 +1,32 @@
-# ArchaeoPhD: Technical Architecture Overview
-**Hybrid Deterministic-Neural System Design, Dual-Engine Routing, and Algorithmic Benchmarks**
+# ARCHAEOPHD: TECHNICAL ARCHITECTURE OVERVIEW
+**Deterministic-Neural Dual Routing, Stratigraphic Graph Validation, and Air-Gapped Field Deployment**
 
 - **Target Audience:** PhD Supervisor & Doctoral Advisory Committee
 - **Scope:** Software Engineering Approach & Algorithmic Architecture
 - **Architecture Model:** Hybrid Native C++20 Core + Governed Local Neural Model (Qwen 2.5 7B GGUF)
 - **Pagination Constraint:** Strictly 3 Printed A4 Pages (~850 words total)
-- **Classification:** Academic Technical Architecture Memorandum
+- **Classification:** Academic Technical Architecture Memorandum (Monochrome / B&W)
 
 ---
 
 # PAGE 1 — WHY THIS TECHNICAL APPROACH OVER OTHERS
 
-> **Core Engineering Thesis:** Archaeological monograph ingestion demands 100% numerical fidelity, mathematical graph cycle detection, and complete data confidentiality under state antiquities permits. Generic cloud LLMs fail on silent numerical drift and regulatory secrecy; pure regex systems fail on irregular 19th-century prose syntax. ArchaeoPhD resolves this through a deterministic C++ fast path backed by a strictly governed, air-gapped local neural arbitrator.
+> **CORE ENGINEERING THESIS:** Archaeological monograph ingestion demands 100% numerical fidelity, mathematical graph cycle detection, and complete data confidentiality under state antiquities permits. Generic cloud LLMs fail on silent numerical drift and regulatory secrecy; pure regex systems fail on irregular 19th-century prose syntax. ArchaeoPhD resolves this through a deterministic C++ fast path backed by a strictly governed, air-gapped local neural arbitrator.
 
 ```
-[ DOCUMENT INGESTION DUAL-ROUTING PIPELINE ]
-
-Raw Archival Scan (PDF / TIFF) 
-    │
-    ▼
-OCR & Layout Analysis
-    ├── Class A (Clean Modern / Clear Letterpress) ──► Native C++ Engine (<1 ms) ──► Deterministic Commit
-    └── Class B (Degraded / 19th-century Archival) ──► Split-Screen UI          ──► Human Double-Entry (0% Auto-fill)
++---------------------------------------------------------------------------------------+
+| ARCHIVAL INGESTION DUAL-ROUTING PIPELINE                                              |
++---------------------------------------------------------------------------------------+
+Raw Scan (PDF / TIFF) ---> OCR & Layout Analysis
+  |
+  +---> [Class A: Clean Typography]  ---> Native C++ Engine (<1 ms) ---> Deterministic Commit
+  |
+  +---> [Class B: Degraded Archival] ---> Split-Screen UI          ---> Human Double-Entry
+                                                                        (0% Auto-Fill Pre-fill)
 ```
 
 ### 1. Rejection of Generic Cloud AI (GPT-4, Claude, Python Cloud APIs)
-* **Probabilistic Hallucination & Numeric Drift:** In archival OCR benchmarks, commercial LLMs silently alter excavation coordinates and depth strata (e.g., empirical tests transcribed *1966* as *1656*, and *20–40 cm* as *20–10 cm*). In archaeological field data, numerical drift corrupts stratigraphic ordering.
+* **Probabilistic Hallucination & Numeric Drift:** In archival OCR benchmarks, commercial LLMs silently alter excavation coordinates and depth strata (empirical test transcribed *1966* as *1656*, and *20–40 cm* as *20–10 cm*). In archaeological field data, numerical drift corrupts stratigraphic ordering.
 * **Antiquities Permit NDAs & Site Security:** Primary excavation reports frequently contain exact, unexcavated findspot GPS coordinates. Sending raw unredacted data to external cloud APIs violates state antiquities permits and exposes vulnerable sites to illicit looting.
 * **Prohibitive Latency:** Full-page cloud LLM inference incurs 15–30 seconds per page with variable network dependency, making batch ingestion of 500-page excavation monographs computationally unviable.
 
@@ -48,8 +49,7 @@ OCR & Layout Analysis
 
 ```
 [ MULTI-DATE CLAUSAL ARBITRATION FLOW ]
-
-Complex Sentence ──► Native C++ Engine (Strips Lifespans "1820–1903") ──► Local LLM (Resolves Event vs Historiography)
+Complex Sentence ---> Native C++ (Strips Lifespans "1820–1903") ---> Local LLM (Resolves Event vs Historiography)
 ```
 
 ### 1. Algorithmic Division of Labor Matrix
@@ -61,13 +61,13 @@ Tasks are allocated strictly according to algorithmic guarantees: mathematical a
 | **Physical Measurements & Units** | Native C++20 Engine | Deterministic grammar enforcing regular units (`m`, `cm`, `mm`, `BP`, `%`). Enforces 0% numeric loss invariant. | **< 1.0 ms / page** |
 | **Artifact Count Binding** | Native C++20 Engine | Rejects bare numbers unless syntactically bound to verified head nouns (e.g., *"14 rim sherds"*). | **< 0.2 ms** |
 | **Author Lifespan Masking** | Native C++20 Engine | Strips biographical date ranges (e.g., *Petrie (1853–1942)*) to prevent citation dates displacing archaeological strata. | **< 0.1 ms** |
-| **Stratigraphic Harris DAG** | Native C++20 Engine | Tarjan's Strongly Connected Components (SCC) $O(V+E)$ detects impossible physical cycles; Kahn's topological sort (Steno's Law). | **< 5.0 ms (1k nodes)** |
-| **Radiocarbon Splines** | Native C++20 Engine | Continuous piecewise cubic splines on IntCal20 atmospheric calibration curves ($1\sigma / 2\sigma$ probability envelopes). | **< 0.1 ms** |
-| **Hybrid Retrieval** | Native C++20 Engine | 128-dim Matryoshka dense vectors fused with in-process Okapi BM25 ($k=60$) to prevent geographic keyword drift. | **22.5 ms query latency** |
+| **Stratigraphic Harris DAG** | Native C++20 Engine | Tarjan's Strongly Connected Components (SCC) O(V+E) detects impossible physical cycles; Kahn's topological sort (Steno's Law). | **< 5.0 ms (1k nodes)** |
+| **Radiocarbon Splines** | Native C++20 Engine | Continuous piecewise cubic splines on IntCal20 atmospheric calibration curves (1σ / 2σ probability envelopes). | **< 0.1 ms** |
+| **Hybrid Retrieval** | Native C++20 Engine | 128-dim Matryoshka dense vectors fused with in-process Okapi BM25 (k=60) to prevent geographic keyword drift. | **22.5 ms query latency** |
 | **Clausal Semantic Disambiguation** | Local Qwen 2.5 7B | Disambiguates competing historical vs. event dates in complex multi-clausal sentences across archival excavation prose. | **~3.8 s / invocation** |
-| **Historiographical Contradictions** | Local Qwen 2.5 7B | Identifies methodological disputes and chronology conflicts across secondary publications via local KV-cached inference. | **~4.2 s (cached)** |
+| **Historiographical Conflicts** | Local Qwen 2.5 7B | Identifies methodological disputes and chronology conflicts across secondary publications via local KV-cached inference. | **~4.2 s (cached)** |
 
-### 2. Governed Neural Arbitration (How Hallucinations Are Eliminated)
+### 2. Governed Neural Arbitration (Zero-Hallucination Guardrails)
 * **Grammar-Constrained Selection-Only Mode:** Unlike consumer chat interfaces, ArchaeoPhD never permits the neural model to generate free-form text. The model receives the verbatim text snippet alongside the pre-extracted C++ candidate list. It is constrained via grammar sampling to output *only* the index integer of the verified candidate or `REJECT`. It cannot invent non-existent dates or citations.
 * **The Class B Safe Invariant:** *"A blank field is infinitely safer than a plausible wrong one."* On degraded 19th-century letterpress scans, automated pre-fill is locked out; the researcher transcribes via split-screen verification.
 
@@ -81,10 +81,9 @@ Tasks are allocated strictly according to algorithmic guarantees: mathematical a
 
 ```
 [ FUTURE EXPERIMENTAL HORIZONS ]
-
-Doctoral Research ──► 1. Local Vision-Language Models (VLMs) on High-Res Plates (Qwen2-VL GGUF)
-Roadmap           ──► 2. 3D SfM Photogrammetric Voxel Intersections in the Harris Matrix DAG
-                  ──► 3. Native C++ Bayesian Sequential Calibration Engine (OxCal-in-C++)
+Doctoral Research ---> 1. Local Vision-Language Models (VLMs) on High-Res Plates (Qwen2-VL GGUF)
+Roadmap           ---> 2. 3D SfM Photogrammetric Voxel Intersections in the Harris Matrix DAG
+                  ---> 3. Native C++ Bayesian Sequential Calibration Engine (OxCal-in-C++)
 ```
 
 ### 1. Critical Failure Modes & Engineering Mitigations
