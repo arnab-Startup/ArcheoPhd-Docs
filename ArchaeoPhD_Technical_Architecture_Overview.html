@@ -3,19 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ArchaeoPhD: Technical Architecture Overview (Monochrome)</title>
+<title>ArchaeoPhD: Technical Architecture Overview</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@400;600&display=swap');
+  @page {
+    size: A4 portrait;
+    margin: 12mm 14mm 10mm 14mm;
+  }
 
   :root {
     --text-primary: #000000;
     --text-secondary: #222222;
-    --text-muted: #555555;
-    --border-thick: 2px solid #000000;
-    --border-thin: 1px solid #000000;
-    --border-light: 1px solid #cccccc;
-    --bg-page: #ffffff;
-    --bg-subtle: #f9f9f9;
+    --text-muted: #444444;
+    --border-thick: 1.5pt solid #000000;
+    --border-thin: 0.75pt solid #000000;
+    --border-hairline: 0.5pt solid #888888;
   }
 
   * {
@@ -25,43 +26,47 @@
   }
 
   body {
-    font-family: 'Crimson Pro', 'Times New Roman', Times, Georgia, serif;
+    font-family: 'Times New Roman', Times, Georgia, serif;
     color: var(--text-primary);
-    background-color: #e5e5e5;
-    line-height: 1.42;
-    font-size: 13.5px;
+    background-color: #f0f0f0;
+    line-height: 1.32;
+    font-size: 11pt;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
 
-  /* Fixed A4 Page Container */
+  /* Screen preview vs print layout */
   .a4-page {
     width: 210mm;
-    min-height: 297mm;
-    max-height: 297mm;
-    padding: 16mm 18mm 14mm 18mm;
-    margin: 15mm auto;
-    background: var(--bg-page);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-    position: relative;
-    overflow: hidden;
+    height: 297mm;
+    margin: 10mm auto;
+    padding: 12mm 14mm 10mm 14mm;
+    background: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    overflow: hidden;
   }
 
   @media print {
     body {
-      background: none;
+      background: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
     }
     .a4-page {
-      margin: 0;
-      width: 100%;
-      height: 297mm;
-      max-height: 297mm;
-      box-shadow: none;
-      page-break-after: always;
-      page-break-inside: avoid;
+      width: 100% !important;
+      height: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      box-shadow: none !important;
+      page-break-inside: avoid !important;
+      break-inside: avoid !important;
+    }
+    .a4-page:not(:last-child) {
+      page-break-after: always !important;
+      break-after: page !important;
     }
     .no-print {
       display: none !important;
@@ -70,132 +75,132 @@
 
   .content-area {
     flex: 1;
+    display: flex;
+    flex-direction: column;
   }
 
   /* Academic Document Header */
   .doc-header {
     border-top: var(--border-thick);
     border-bottom: var(--border-thin);
-    padding: 8px 0;
-    margin-bottom: 12px;
+    padding: 6px 0 5px 0;
+    margin-bottom: 8px;
   }
 
   .header-main-title {
-    font-size: 20px;
-    font-weight: 700;
+    font-size: 14pt;
+    font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 0.04em;
-    line-height: 1.2;
+    line-height: 1.15;
     text-align: center;
     color: var(--text-primary);
   }
 
   .header-subtitle {
-    font-size: 13px;
+    font-size: 9.5pt;
     font-style: italic;
     text-align: center;
-    margin-top: 3px;
+    margin-top: 2px;
     color: var(--text-secondary);
   }
 
   .meta-table {
     width: 100%;
-    margin-top: 8px;
-    border-top: var(--border-thin);
-    border-bottom: var(--border-thin);
-    font-size: 11px;
-    font-family: 'Crimson Pro', Georgia, serif;
+    margin-top: 5px;
+    border-top: var(--border-hairline);
+    font-size: 8.5pt;
+    font-family: 'Times New Roman', Times, serif;
     border-collapse: collapse;
   }
 
   .meta-table td {
-    padding: 3px 6px;
+    padding: 2px 4px;
     vertical-align: middle;
   }
 
   .meta-label {
-    font-weight: 700;
+    font-weight: bold;
     text-transform: uppercase;
-    font-size: 9.5px;
-    letter-spacing: 0.05em;
+    font-size: 7.5pt;
+    letter-spacing: 0.04em;
     color: var(--text-muted);
   }
 
   .meta-val {
-    font-weight: 600;
+    font-weight: bold;
     color: var(--text-primary);
   }
 
   /* Section Headings */
   h2.section-heading {
-    font-size: 13.5px;
-    font-weight: 700;
+    font-size: 10.5pt;
+    font-weight: bold;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.04em;
     border-bottom: var(--border-thin);
-    padding-bottom: 2px;
-    margin: 12px 0 8px 0;
+    padding-bottom: 1.5px;
+    margin: 8px 0 5px 0;
     display: flex;
     justify-content: space-between;
   }
 
-  /* Pure B&W Callout Box */
+  /* Formal Thesis Box */
   .thesis-box {
     border: var(--border-thick);
-    padding: 8px 12px;
-    margin: 8px 0 10px 0;
+    padding: 6px 10px;
+    margin: 6px 0 8px 0;
     background: #ffffff;
-    font-size: 12.5px;
-    line-height: 1.4;
+    font-size: 9.5pt;
+    line-height: 1.3;
   }
 
   .thesis-box strong {
     text-transform: uppercase;
     letter-spacing: 0.03em;
-    font-size: 11px;
+    font-size: 8.5pt;
     display: block;
     margin-bottom: 2px;
   }
 
-  /* ASCII / Monospace Flow Diagram (White background, Black border) */
+  /* ASCII Diagram (Pure Black & White) */
   .diagram-box {
     border: var(--border-thin);
     background: #ffffff;
-    padding: 8px 12px;
-    margin: 8px 0;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    line-height: 1.35;
+    padding: 5px 8px;
+    margin: 6px 0;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 8.5pt;
+    line-height: 1.25;
     color: #000000;
     white-space: pre;
-    overflow-x: auto;
   }
 
   /* Two Column Layout */
   .two-column {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin: 8px 0;
+    gap: 8px;
+    margin: 6px 0;
   }
 
   .column-box {
     border: var(--border-thin);
-    padding: 8px 10px;
+    padding: 6px 8px;
     background: #ffffff;
   }
 
   .column-box h3 {
-    font-size: 12px;
-    font-weight: 700;
+    font-size: 9pt;
+    font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 0.03em;
-    border-bottom: var(--border-thin);
-    padding-bottom: 3px;
-    margin-bottom: 6px;
+    border-bottom: var(--border-hairline);
+    padding-bottom: 2px;
+    margin-bottom: 4px;
   }
 
-  /* Bullet List */
+  /* Academic Bullet List */
   ul.academic-list {
     list-style-type: none;
     padding-left: 0;
@@ -203,32 +208,28 @@
 
   ul.academic-list li {
     position: relative;
-    padding-left: 14px;
-    margin-bottom: 6px;
-    font-size: 12px;
-    line-height: 1.38;
+    padding-left: 11px;
+    margin-bottom: 4px;
+    font-size: 9pt;
+    line-height: 1.28;
   }
 
   ul.academic-list li::before {
     content: "■";
     position: absolute;
-    left: 2px;
+    left: 1px;
     top: 1px;
-    font-size: 7px;
+    font-size: 5.5pt;
     color: #000000;
   }
 
-  ul.academic-list li strong {
-    font-weight: 700;
-  }
-
-  /* Formal Booktabs LaTeX-Style Table (Strictly Black & White) */
+  /* LaTeX Booktabs Formal Table */
   table.booktabs {
     width: 100%;
     border-collapse: collapse;
-    margin: 8px 0;
-    font-size: 11.5px;
-    line-height: 1.35;
+    margin: 6px 0;
+    font-size: 8.5pt;
+    line-height: 1.22;
   }
 
   table.booktabs thead tr {
@@ -237,16 +238,16 @@
   }
 
   table.booktabs th {
-    font-weight: 700;
+    font-weight: bold;
     text-align: left;
-    padding: 5px 6px;
+    padding: 3px 4px;
     text-transform: uppercase;
-    font-size: 10px;
-    letter-spacing: 0.05em;
+    font-size: 7.5pt;
+    letter-spacing: 0.04em;
   }
 
   table.booktabs tbody tr {
-    border-bottom: 1px solid #e0e0e0;
+    border-bottom: 0.5pt solid #cccccc;
   }
 
   table.booktabs tbody tr:last-child {
@@ -254,88 +255,84 @@
   }
 
   table.booktabs td {
-    padding: 4.5px 6px;
+    padding: 3px 4px;
     vertical-align: top;
   }
 
   .mono-tag {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    font-weight: 600;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 8pt;
+    font-weight: bold;
+    white-space: nowrap;
   }
 
   .badge-tag {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 9.5px;
-    border: var(--border-thin);
-    padding: 1px 4px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 7.5pt;
+    border: 0.75pt solid #000000;
+    padding: 0.5px 3px;
     display: inline-block;
-    font-weight: 600;
+    font-weight: bold;
+    white-space: nowrap;
   }
 
   /* Academic Footer */
   .doc-footer {
     border-top: var(--border-thick);
-    padding-top: 5px;
+    padding-top: 4px;
+    margin-top: 4px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 10px;
+    font-size: 8pt;
     font-style: italic;
     color: var(--text-muted);
   }
 
   .doc-footer .page-number {
     font-style: normal;
-    font-weight: 700;
+    font-weight: bold;
     color: var(--text-primary);
   }
 
-  /* Action Bar for On-Screen Viewing */
+  /* Action Bar (Screen Only) */
   .action-bar {
     max-width: 210mm;
-    margin: 15px auto 0 auto;
+    margin: 10mm auto 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
     background: #000000;
-    padding: 8px 14px;
+    padding: 6px 12px;
     color: #ffffff;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 9pt;
   }
 
   .btn {
     background: #ffffff;
     color: #000000;
     border: 1px solid #ffffff;
-    padding: 5px 12px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    font-weight: 700;
+    padding: 4px 10px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 8.5pt;
+    font-weight: bold;
     cursor: pointer;
     text-transform: uppercase;
-  }
-  .btn:hover {
-    background: #000000;
-    color: #ffffff;
   }
 </style>
 </head>
 <body>
 
 <div class="action-bar no-print">
+  <div>[ARCHAEOPHD] MONOCHROME 3-PAGE TECHNICAL MEMORANDUM</div>
   <div>
-    [ARCHAEOPHD] MONOCHROME 3-PAGE TECHNICAL MEMORANDUM
-  </div>
-  <div style="display: flex; gap: 8px;">
     <button class="btn" onclick="window.print()">Print / Save PDF (B&amp;W)</button>
-    <button class="btn" onclick="copyDocumentToClipboard()">Copy Plain Text</button>
   </div>
 </div>
 
 <!-- ===================================================================== -->
-<!-- PAGE 1: WHY THIS TECHNICAL APPROACH OVER OTHERS (BLACK & WHITE)       -->
+<!-- PAGE 1: WHY THIS TECHNICAL APPROACH OVER OTHERS                       -->
 <!-- ===================================================================== -->
 <div class="a4-page" id="page1">
   <div class="content-area">
@@ -344,8 +341,8 @@
       <div class="header-subtitle">Deterministic-Neural Dual Routing, Stratigraphic Graph Validation, and Air-Gapped Field Deployment</div>
       <table class="meta-table">
         <tr>
-          <td><span class="meta-label">Target:</span> <span class="meta-val">PhD Supervisor &amp; Doctoral Committee</span></td>
-          <td><span class="meta-label">Domain:</span> <span class="meta-val">Software Engineering Approach</span></td>
+          <td><span class="meta-label">Target:</span> <span class="meta-val">PhD Supervisor &amp; Committee</span></td>
+          <td><span class="meta-label">Scope:</span> <span class="meta-val">Software Engineering Approach</span></td>
           <td><span class="meta-label">Architecture:</span> <span class="meta-val">Hybrid C++20 + Local LLM</span></td>
           <td style="text-align: right;"><span class="meta-label">Pagination:</span> <span class="meta-val">Page 1 of 3</span></td>
         </tr>
@@ -386,9 +383,9 @@
     </h2>
 
     <div class="diagram-box">
-+---------------------------------------------------------------------------------------+
-| ARCHIVAL INGESTION DUAL-ROUTING PIPELINE                                              |
-+---------------------------------------------------------------------------------------+
++-----------------------------------------------------------------------------------+
+| ARCHIVAL INGESTION DUAL-ROUTING PIPELINE                                          |
++-----------------------------------------------------------------------------------+
 Raw Scan (PDF / TIFF) ---> OCR & Layout Analysis
   |
   +---> [Class A: Clean Typography]  ---> Native C++ Engine (<1 ms) ---> Deterministic Commit
@@ -412,7 +409,7 @@ Raw Scan (PDF / TIFF) ---> OCR & Layout Analysis
 </div>
 
 <!-- ===================================================================== -->
-<!-- PAGE 2: DIVISION OF LABOR & BENCHMARKS (BLACK & WHITE)                -->
+<!-- PAGE 2: DIVISION OF LABOR & BENCHMARKS                                -->
 <!-- ===================================================================== -->
 <div class="a4-page" id="page2">
   <div class="content-area">
@@ -422,8 +419,8 @@ Raw Scan (PDF / TIFF) ---> OCR & Layout Analysis
       <table class="meta-table">
         <tr>
           <td><span class="meta-label">Section:</span> <span class="meta-val">Division of Labor</span></td>
-          <td><span class="meta-label">Parsing Mode:</span> <span class="meta-val">Deterministic vs Neural</span></td>
-          <td><span class="meta-label">Graph Invariant:</span> <span class="meta-val">Steno's Law (Acyclic DAG)</span></td>
+          <td><span class="meta-label">Mode:</span> <span class="meta-val">Deterministic vs Neural</span></td>
+          <td><span class="meta-label">Graph Law:</span> <span class="meta-val">Steno's Law (Acyclic DAG)</span></td>
           <td style="text-align: right;"><span class="meta-label">Pagination:</span> <span class="meta-val">Page 2 of 3</span></td>
         </tr>
       </table>
@@ -434,67 +431,63 @@ Raw Scan (PDF / TIFF) ---> OCR & Layout Analysis
       <span>[Page 2 / 3]</span>
     </h2>
 
-    <p style="font-size: 11.5px; margin-bottom: 6px;">
-      Tasks are allocated strictly according to algorithmic guarantees: mathematical and syntactic proofs to native C++, and semantic arbitration to the governed local model.
-    </p>
-
     <table class="booktabs">
       <thead>
         <tr>
           <th style="width: 25%;">Task / Domain Subsystem</th>
           <th style="width: 17%;">Engine Deployed</th>
-          <th style="width: 38%;">Algorithmic Implementation &amp; Rationale</th>
-          <th style="width: 20%;">Empirical Benchmark</th>
+          <th style="width: 40%;">Algorithmic Implementation &amp; Rationale</th>
+          <th style="width: 18%;">Benchmark</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td><strong>Physical Measurements</strong><br><span style="font-size: 10px; color: var(--text-muted);">Depths, elevations, dimensions</span></td>
+          <td><strong>Physical Measurements</strong><br><span style="font-size: 7.5pt; color: var(--text-muted);">Depths, elevations, dimensions</span></td>
           <td><span class="badge-tag">C++20 Engine</span></td>
-          <td>Deterministic grammar enforcing regular units (m, cm, mm, BP, %). Enforces 0% numeric corruption invariant.</td>
-          <td><span class="mono-tag">&lt; 1.0 ms / page</span></td>
+          <td>Deterministic grammar enforcing regular units (m, cm, mm, BP, %). Enforces 0% numeric loss invariant.</td>
+          <td><span class="mono-tag">&lt; 1.0 ms / p</span></td>
         </tr>
         <tr>
-          <td><strong>Artifact Count Binding</strong><br><span style="font-size: 10px; color: var(--text-muted);">Sherds, bifaces, lithics</span></td>
+          <td><strong>Artifact Count Binding</strong><br><span style="font-size: 7.5pt; color: var(--text-muted);">Sherds, bifaces, lithics</span></td>
           <td><span class="badge-tag">C++20 Engine</span></td>
           <td>Rejects bare numbers unless syntactically bound to verified head nouns (e.g., <em>"14 rim sherds"</em>).</td>
           <td><span class="mono-tag">&lt; 0.2 ms</span></td>
         </tr>
         <tr>
-          <td><strong>Author Lifespan Masking</strong><br><span style="font-size: 10px; color: var(--text-muted);">Bibliographic noise suppression</span></td>
+          <td><strong>Author Lifespan Masking</strong><br><span style="font-size: 7.5pt; color: var(--text-muted);">Bibliographic suppression</span></td>
           <td><span class="badge-tag">C++20 Engine</span></td>
-          <td>Strips biographical date ranges (e.g., <em>Petrie (1853–1942)</em>) to prevent citation dates displacing archaeological strata.</td>
+          <td>Strips biographical date ranges (e.g., <em>Petrie (1853–1942)</em>) to prevent citation dates displacing strata.</td>
           <td><span class="mono-tag">&lt; 0.1 ms</span></td>
         </tr>
         <tr>
-          <td><strong>Stratigraphic Harris DAG</strong><br><span style="font-size: 10px; color: var(--text-muted);">Steno's Law physical sequencing</span></td>
+          <td><strong>Stratigraphic Harris DAG</strong><br><span style="font-size: 7.5pt; color: var(--text-muted);">Steno's Law physical sequencing</span></td>
           <td><span class="badge-tag">C++20 Engine</span></td>
-          <td>Tarjan's Strongly Connected Components (SCC) O(V+E) detects impossible physical cycles; Kahn's topological sort.</td>
-          <td><span class="mono-tag">&lt; 5.0 ms (1k nodes)</span></td>
+          <td>Tarjan's Strongly Connected Components (SCC) O(V+E) detects impossible physical cycles; Kahn's sort.</td>
+          <td><span class="mono-tag">&lt; 5.0 ms (1k)</span></td>
         </tr>
         <tr>
-          <td><strong>Radiocarbon Splines</strong><br><span style="font-size: 10px; color: var(--text-muted);">14C non-linear calibration</span></td>
+          <td><strong>Radiocarbon Splines</strong><br><span style="font-size: 7.5pt; color: var(--text-muted);">14C non-linear calibration</span></td>
           <td><span class="badge-tag">C++20 Engine</span></td>
-          <td>Continuous piecewise cubic splines on IntCal20 atmospheric calibration curves (1&sigma; / 2&sigma; envelopes).</td>
+          <td>Continuous piecewise cubic splines on IntCal20 calibration curves (1&sigma; / 2&sigma; probability envelopes).</td>
           <td><span class="mono-tag">&lt; 0.1 ms</span></td>
         </tr>
         <tr>
-          <td><strong>Hybrid Retrieval</strong><br><span style="font-size: 10px; color: var(--text-muted);">Dense vector + exact lexical</span></td>
+          <td><strong>Hybrid Retrieval</strong><br><span style="font-size: 7.5pt; color: var(--text-muted);">Dense vector + exact lexical</span></td>
           <td><span class="badge-tag">C++20 Engine</span></td>
-          <td>128-dim Matryoshka dense vectors fused with in-process Okapi BM25 (k=60) to prevent geographic keyword drift.</td>
-          <td><span class="mono-tag">22.5 ms latency</span></td>
+          <td>128-dim Matryoshka dense vectors fused with in-process Okapi BM25 (k=60) to prevent keyword drift.</td>
+          <td><span class="mono-tag">22.5 ms</span></td>
         </tr>
         <tr>
-          <td><strong>Clausal Disambiguation</strong><br><span style="font-size: 10px; color: var(--text-muted);">Multi-date sentence context</span></td>
+          <td><strong>Clausal Disambiguation</strong><br><span style="font-size: 7.5pt; color: var(--text-muted);">Multi-date sentence context</span></td>
           <td><span class="badge-tag">Qwen 2.5 7B</span></td>
-          <td>Disambiguates competing historical vs. event dates in complex multi-clausal sentences across archival excavation prose.</td>
+          <td>Disambiguates competing historical vs. event dates in complex multi-clausal sentences in excavation prose.</td>
           <td><span class="mono-tag">~3.8 s / call</span></td>
         </tr>
         <tr>
-          <td><strong>Historiographical Conflicts</strong><br><span style="font-size: 10px; color: var(--text-muted);">Opposing excavation hypotheses</span></td>
+          <td><strong>Historiographical Conflicts</strong><br><span style="font-size: 7.5pt; color: var(--text-muted);">Opposing excavation hypotheses</span></td>
           <td><span class="badge-tag">Qwen 2.5 7B</span></td>
-          <td>Identifies methodological disputes and chronology conflicts across secondary publications via local KV-cached inference.</td>
-          <td><span class="mono-tag">~4.2 s (cached)</span></td>
+          <td>Identifies methodological disputes and chronology conflicts across publications via local KV-cached inference.</td>
+          <td><span class="mono-tag">~4.2 s (cache)</span></td>
         </tr>
       </tbody>
     </table>
@@ -503,9 +496,9 @@ Raw Scan (PDF / TIFF) ---> OCR & Layout Analysis
       <span>2. Governed Neural Arbitration: How Hallucinations Are Eliminated</span>
     </h2>
 
-    <div class="column-box" style="margin-bottom: 8px;">
+    <div class="column-box" style="margin-bottom: 6px;">
       <h3>The Selection-Only Guardrail Architecture</h3>
-      <p style="font-size: 11.5px; margin-bottom: 4px;">
+      <p style="font-size: 9pt; margin-bottom: 3px;">
         Unlike consumer chat interfaces, ArchaeoPhD never permits the neural model to generate free-form text:
       </p>
       <ul class="academic-list">
@@ -523,7 +516,7 @@ Raw Scan (PDF / TIFF) ---> OCR & Layout Analysis
 </div>
 
 <!-- ===================================================================== -->
-<!-- PAGE 3: FAILURE MODES & FUTURE EXPERIMENTAL HORIZONS (BLACK & WHITE)  -->
+<!-- PAGE 3: FAILURE MODES & FUTURE EXPERIMENTAL HORIZONS                  -->
 <!-- ===================================================================== -->
 <div class="a4-page" id="page3">
   <div class="content-area">
@@ -554,7 +547,7 @@ Raw Scan (PDF / TIFF) ---> OCR & Layout Analysis
       <em>Mitigation:</em> Dual-stage lexical BM25 filtering enforces exact trench identifiers, locus numbers, and site names.</li>
     </ul>
 
-    <div class="diagram-box" style="margin: 6px 0; font-size: 10.5px;">
+    <div class="diagram-box" style="margin: 4px 0; font-size: 8pt;">
 Hardware Footprint Verification:
 • Standalone Win32 Executable: 9.49 MB (release/ArchaeoPhD.exe)
 • Neural Model Weights:        4.45 GB total (Qwen2.5-7B-Instruct-Q4_K_M.gguf + nomic-embed-text)
@@ -565,28 +558,28 @@ Hardware Footprint Verification:
       <span>2. Planned Technical Experiments (Doctoral Research Roadmap)</span>
     </h2>
 
-    <div class="column-box" style="margin-bottom: 6px;">
+    <div class="column-box" style="margin-bottom: 4px;">
       <h3>Experiment 1: Local Vision-Language Models (VLMs) on High-Resolution Letterpress Crops</h3>
-      <p style="font-size: 11.5px;">
+      <p style="font-size: 8.5pt;">
         <strong>Engineering Goal:</strong> Test quantized local VLMs (Qwen2-VL 2B/7B GGUF) directly on segmented typographic plates from 19th-century monographs (e.g., Petrie, Evans). By processing high-resolution bounding crops rather than full pages, we eliminate token collapse and preserve sub-millimeter plate coordinates without cloud data leakage.
       </p>
     </div>
 
-    <div class="column-box" style="margin-bottom: 6px;">
+    <div class="column-box" style="margin-bottom: 4px;">
       <h3>Experiment 2: 3D Volumetric Voxel Intersections in the Harris Matrix DAG</h3>
-      <p style="font-size: 11.5px;">
+      <p style="font-size: 8.5pt;">
         <strong>Engineering Goal:</strong> Bridge trench Structure-from-Motion (SfM) 3D photogrammetric meshes directly into the C++ Tarjan DAG solver. Instead of relying on manual 2D context sheets, the engine will compute 3D volumetric intersections between stratigraphic units to mathematically detect physical overlap violations.
       </p>
     </div>
 
-    <div class="column-box" style="margin-bottom: 6px;">
+    <div class="column-box" style="margin-bottom: 4px;">
       <h3>Experiment 3: Native C++ Bayesian Sequential Calibration Engine (OxCal-in-C++)</h3>
-      <p style="font-size: 11.5px;">
+      <p style="font-size: 8.5pt;">
         <strong>Engineering Goal:</strong> Embed an in-process Markov Chain Monte Carlo (MCMC) Bayesian sampler directly into the native C++ binary. This fuses prior stratigraphic DAG topological constraints with posterior IntCal20 continuous radiocarbon probability envelopes on-device, replacing external commercial legacy software.
       </p>
     </div>
 
-    <div class="thesis-box" style="margin-top: 6px;">
+    <div class="thesis-box" style="margin-top: 4px;">
       <strong>Summary for the Doctoral Advisory Committee:</strong>
       ArchaeoPhD pairs deterministic C++ engines for sub-millisecond mathematical precision and zero numerical drift with a governed, offline neural model for semantic nuance. The resulting architecture delivers a fully air-gapped, verifiable computational platform engineered for doctoral-level research.
     </div>
@@ -598,17 +591,6 @@ Hardware Footprint Verification:
     <span class="page-number">Page 3 of 3</span>
   </div>
 </div>
-
-<script>
-function copyDocumentToClipboard() {
-  const content = document.body.innerText;
-  navigator.clipboard.writeText(content).then(() => {
-    alert("Full monochrome 3-page structured text copied to clipboard!");
-  }).catch(err => {
-    console.error("Failed to copy:", err);
-  });
-}
-</script>
 
 </body>
 </html>
