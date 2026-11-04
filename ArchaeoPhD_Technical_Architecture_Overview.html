@@ -5,15 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ArchaeoPhD: Technical Architecture Overview</title>
 <style>
+  /* Setting @page margin to 0 strictly eliminates Chrome/Edge URL and timestamp headers/footers */
   @page {
     size: A4 portrait;
-    margin: 12mm 14mm 10mm 14mm;
+    margin: 0mm !important;
   }
 
   :root {
     --text-primary: #000000;
     --text-secondary: #222222;
-    --text-muted: #444444;
+    --text-muted: #555555;
     --border-thick: 1.5pt solid #000000;
     --border-thin: 0.75pt solid #000000;
     --border-hairline: 0.5pt solid #888888;
@@ -25,48 +26,58 @@
     padding: 0;
   }
 
-  body {
+  html, body {
+    margin: 0;
+    padding: 0;
+    background-color: #e5e5e5;
     font-family: 'Times New Roman', Times, Georgia, serif;
     color: var(--text-primary);
-    background-color: #f0f0f0;
-    line-height: 1.32;
+    line-height: 1.35;
     font-size: 11pt;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
 
-  /* Screen preview vs print layout */
+  /* Fixed A4 Page Container (Screen Preview) */
   .a4-page {
     width: 210mm;
     height: 297mm;
-    margin: 10mm auto;
-    padding: 12mm 14mm 10mm 14mm;
+    max-height: 297mm;
+    margin: 12mm auto;
+    padding: 16mm 18mm 14mm 18mm;
     background: #ffffff;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     overflow: hidden;
+    box-sizing: border-box;
   }
 
   @media print {
-    body {
-      background: none !important;
+    html, body {
+      background: #ffffff !important;
       margin: 0 !important;
       padding: 0 !important;
+      width: 210mm !important;
     }
     .a4-page {
-      width: 100% !important;
-      height: 100% !important;
       margin: 0 !important;
-      padding: 0 !important;
+      width: 210mm !important;
+      height: 297mm !important;
+      max-height: 297mm !important;
+      padding: 16mm 18mm 14mm 18mm !important;
       box-shadow: none !important;
       page-break-inside: avoid !important;
       break-inside: avoid !important;
-    }
-    .a4-page:not(:last-child) {
       page-break-after: always !important;
       break-after: page !important;
+      overflow: hidden !important;
+      box-sizing: border-box !important;
+    }
+    .a4-page:last-child {
+      page-break-after: auto !important;
+      break-after: auto !important;
     }
     .no-print {
       display: none !important;
@@ -79,16 +90,16 @@
     flex-direction: column;
   }
 
-  /* Academic Document Header */
-  .doc-header {
+  /* Primary Document Masthead (Page 1 Only) */
+  .doc-header-main {
     border-top: var(--border-thick);
     border-bottom: var(--border-thin);
-    padding: 6px 0 5px 0;
-    margin-bottom: 8px;
+    padding: 8px 0 6px 0;
+    margin-bottom: 10px;
   }
 
   .header-main-title {
-    font-size: 14pt;
+    font-size: 15pt;
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 0.04em;
@@ -98,7 +109,7 @@
   }
 
   .header-subtitle {
-    font-size: 9.5pt;
+    font-size: 10pt;
     font-style: italic;
     text-align: center;
     margin-top: 2px;
@@ -107,7 +118,7 @@
 
   .meta-table {
     width: 100%;
-    margin-top: 5px;
+    margin-top: 6px;
     border-top: var(--border-hairline);
     font-size: 8.5pt;
     font-family: 'Times New Roman', Times, serif;
@@ -115,7 +126,7 @@
   }
 
   .meta-table td {
-    padding: 2px 4px;
+    padding: 3px 6px;
     vertical-align: middle;
   }
 
@@ -132,27 +143,46 @@
     color: var(--text-primary);
   }
 
+  /* Running Header (Pages 2 & 3) */
+  .running-header {
+    border-bottom: var(--border-thin);
+    padding-bottom: 4px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 8.5pt;
+    font-style: italic;
+    color: var(--text-muted);
+  }
+
+  .running-header span.running-title {
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    font-style: normal;
+    color: var(--text-primary);
+  }
+
   /* Section Headings */
   h2.section-heading {
-    font-size: 10.5pt;
+    font-size: 11pt;
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 0.04em;
     border-bottom: var(--border-thin);
-    padding-bottom: 1.5px;
-    margin: 8px 0 5px 0;
-    display: flex;
-    justify-content: space-between;
+    padding-bottom: 2px;
+    margin: 10px 0 6px 0;
   }
 
   /* Formal Thesis Box */
   .thesis-box {
     border: var(--border-thick);
-    padding: 6px 10px;
-    margin: 6px 0 8px 0;
+    padding: 7px 12px;
+    margin: 6px 0 10px 0;
     background: #ffffff;
     font-size: 9.5pt;
-    line-height: 1.3;
+    line-height: 1.35;
   }
 
   .thesis-box strong {
@@ -163,12 +193,12 @@
     margin-bottom: 2px;
   }
 
-  /* ASCII Diagram (Pure Black & White) */
+  /* ASCII Diagram */
   .diagram-box {
     border: var(--border-thin);
     background: #ffffff;
-    padding: 5px 8px;
-    margin: 6px 0;
+    padding: 6px 10px;
+    margin: 8px 0;
     font-family: 'Courier New', Courier, monospace;
     font-size: 8.5pt;
     line-height: 1.25;
@@ -180,24 +210,24 @@
   .two-column {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    margin: 6px 0;
+    gap: 10px;
+    margin: 8px 0;
   }
 
   .column-box {
     border: var(--border-thin);
-    padding: 6px 8px;
+    padding: 7px 10px;
     background: #ffffff;
   }
 
   .column-box h3 {
-    font-size: 9pt;
+    font-size: 9.5pt;
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 0.03em;
     border-bottom: var(--border-hairline);
     padding-bottom: 2px;
-    margin-bottom: 4px;
+    margin-bottom: 5px;
   }
 
   /* Academic Bullet List */
@@ -208,17 +238,17 @@
 
   ul.academic-list li {
     position: relative;
-    padding-left: 11px;
-    margin-bottom: 4px;
+    padding-left: 12px;
+    margin-bottom: 5px;
     font-size: 9pt;
-    line-height: 1.28;
+    line-height: 1.32;
   }
 
   ul.academic-list li::before {
     content: "■";
     position: absolute;
     left: 1px;
-    top: 1px;
+    top: 2px;
     font-size: 5.5pt;
     color: #000000;
   }
@@ -227,9 +257,9 @@
   table.booktabs {
     width: 100%;
     border-collapse: collapse;
-    margin: 6px 0;
+    margin: 8px 0;
     font-size: 8.5pt;
-    line-height: 1.22;
+    line-height: 1.25;
   }
 
   table.booktabs thead tr {
@@ -240,14 +270,14 @@
   table.booktabs th {
     font-weight: bold;
     text-align: left;
-    padding: 3px 4px;
+    padding: 4px 6px;
     text-transform: uppercase;
     font-size: 7.5pt;
     letter-spacing: 0.04em;
   }
 
   table.booktabs tbody tr {
-    border-bottom: 0.5pt solid #cccccc;
+    border-bottom: 0.5pt solid #dddddd;
   }
 
   table.booktabs tbody tr:last-child {
@@ -255,7 +285,7 @@
   }
 
   table.booktabs td {
-    padding: 3px 4px;
+    padding: 3.5px 6px;
     vertical-align: top;
   }
 
@@ -270,7 +300,7 @@
     font-family: 'Courier New', Courier, monospace;
     font-size: 7.5pt;
     border: 0.75pt solid #000000;
-    padding: 0.5px 3px;
+    padding: 0.5px 4px;
     display: inline-block;
     font-weight: bold;
     white-space: nowrap;
@@ -279,12 +309,12 @@
   /* Academic Footer */
   .doc-footer {
     border-top: var(--border-thick);
-    padding-top: 4px;
-    margin-top: 4px;
+    padding-top: 5px;
+    margin-top: 6px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 8pt;
+    font-size: 8.5pt;
     font-style: italic;
     color: var(--text-muted);
   }
@@ -295,18 +325,18 @@
     color: var(--text-primary);
   }
 
-  /* Action Bar (Screen Only) */
+  /* Screen Action Bar */
   .action-bar {
     max-width: 210mm;
-    margin: 10mm auto 0 auto;
+    margin: 12mm auto 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
     background: #000000;
-    padding: 6px 12px;
+    padding: 8px 14px;
     color: #ffffff;
     font-family: 'Courier New', Courier, monospace;
-    font-size: 9pt;
+    font-size: 9.5pt;
   }
 
   .btn {
@@ -327,16 +357,16 @@
 <div class="action-bar no-print">
   <div>[ARCHAEOPHD] MONOCHROME 3-PAGE TECHNICAL MEMORANDUM</div>
   <div>
-    <button class="btn" onclick="window.print()">Print / Save PDF (B&amp;W)</button>
+    <button class="btn" onclick="window.print()">Print / Save PDF</button>
   </div>
 </div>
 
 <!-- ===================================================================== -->
-<!-- PAGE 1: WHY THIS TECHNICAL APPROACH OVER OTHERS                       -->
+<!-- PAGE 1: SYSTEM RATIONALE & ARCHITECTURAL CHOICES                     -->
 <!-- ===================================================================== -->
 <div class="a4-page" id="page1">
   <div class="content-area">
-    <div class="doc-header">
+    <div class="doc-header-main">
       <div class="header-main-title">ArchaeoPhD: Technical Architecture Overview</div>
       <div class="header-subtitle">Deterministic-Neural Dual Routing, Stratigraphic Graph Validation, and Air-Gapped Field Deployment</div>
       <table class="meta-table">
@@ -344,7 +374,6 @@
           <td><span class="meta-label">Target:</span> <span class="meta-val">PhD Supervisor &amp; Committee</span></td>
           <td><span class="meta-label">Scope:</span> <span class="meta-val">Software Engineering Approach</span></td>
           <td><span class="meta-label">Architecture:</span> <span class="meta-val">Hybrid C++20 + Local LLM</span></td>
-          <td style="text-align: right;"><span class="meta-label">Pagination:</span> <span class="meta-val">Page 1 of 3</span></td>
         </tr>
       </table>
     </div>
@@ -354,10 +383,7 @@
       Archaeological monograph ingestion demands 100% numerical fidelity, mathematical graph cycle detection, and strict data confidentiality under state antiquities permits. Generic cloud LLMs fail on silent numerical drift and regulatory secrecy; pure regex systems fail on irregular 19th-century prose syntax. ArchaeoPhD resolves this through a deterministic C++ fast path backed by a strictly governed, air-gapped local neural arbitrator.
     </div>
 
-    <h2 class="section-heading">
-      <span>1. Rejection of Generic Cloud AI &amp; Pure Regex Systems</span>
-      <span>[Page 1 / 3]</span>
-    </h2>
+    <h2 class="section-heading">1. Rejection of Generic Cloud AI &amp; Pure Regex Systems</h2>
 
     <div class="two-column">
       <div class="column-box">
@@ -378,9 +404,7 @@
       </div>
     </div>
 
-    <h2 class="section-heading">
-      <span>2. The Chosen Architecture: Hybrid C++20 + Governed Local Neural Model</span>
-    </h2>
+    <h2 class="section-heading">2. The Chosen Architecture: Hybrid C++20 + Governed Local Neural Model</h2>
 
     <div class="diagram-box">
 +-----------------------------------------------------------------------------------+
@@ -403,8 +427,8 @@ Raw Scan (PDF / TIFF) ---> OCR & Layout Analysis
 
   <div class="doc-footer">
     <span>ArchaeoPhD Technical Architecture Memorandum</span>
-    <span>CONFIDENTIAL &amp; PROPRIETARY &mdash; FOR ADVISORY REVIEW ONLY</span>
-    <span class="page-number">Page 1 of 3</span>
+    <span>CONFIDENTIAL &mdash; FOR ADVISORY COMMITTEE REVIEW</span>
+    <span class="page-number">Page 1</span>
   </div>
 </div>
 
@@ -413,23 +437,12 @@ Raw Scan (PDF / TIFF) ---> OCR & Layout Analysis
 <!-- ===================================================================== -->
 <div class="a4-page" id="page2">
   <div class="content-area">
-    <div class="doc-header">
-      <div class="header-main-title">ArchaeoPhD: Technical Architecture Overview</div>
-      <div class="header-subtitle">Algorithmic Division of Labor, Subsystem Benchmarks, and Hallucination Prevention</div>
-      <table class="meta-table">
-        <tr>
-          <td><span class="meta-label">Section:</span> <span class="meta-val">Division of Labor</span></td>
-          <td><span class="meta-label">Mode:</span> <span class="meta-val">Deterministic vs Neural</span></td>
-          <td><span class="meta-label">Graph Law:</span> <span class="meta-val">Steno's Law (Acyclic DAG)</span></td>
-          <td style="text-align: right;"><span class="meta-label">Pagination:</span> <span class="meta-val">Page 2 of 3</span></td>
-        </tr>
-      </table>
+    <div class="running-header">
+      <span class="running-title">ArchaeoPhD: Technical Architecture Overview</span>
+      <span>Section 2: Division of Labor &amp; Algorithmic Benchmarks</span>
     </div>
 
-    <h2 class="section-heading">
-      <span>1. Algorithmic Division of Labor Matrix</span>
-      <span>[Page 2 / 3]</span>
-    </h2>
+    <h2 class="section-heading">1. Algorithmic Division of Labor Matrix</h2>
 
     <table class="booktabs">
       <thead>
@@ -492,9 +505,7 @@ Raw Scan (PDF / TIFF) ---> OCR & Layout Analysis
       </tbody>
     </table>
 
-    <h2 class="section-heading">
-      <span>2. Governed Neural Arbitration: How Hallucinations Are Eliminated</span>
-    </h2>
+    <h2 class="section-heading">2. Governed Neural Arbitration: How Hallucinations Are Eliminated</h2>
 
     <div class="column-box" style="margin-bottom: 6px;">
       <h3>The Selection-Only Guardrail Architecture</h3>
@@ -510,8 +521,8 @@ Raw Scan (PDF / TIFF) ---> OCR & Layout Analysis
 
   <div class="doc-footer">
     <span>ArchaeoPhD Technical Architecture Memorandum</span>
-    <span>CONFIDENTIAL &amp; PROPRIETARY &mdash; FOR ADVISORY REVIEW ONLY</span>
-    <span class="page-number">Page 2 of 3</span>
+    <span>CONFIDENTIAL &mdash; FOR ADVISORY COMMITTEE REVIEW</span>
+    <span class="page-number">Page 2</span>
   </div>
 </div>
 
@@ -520,23 +531,12 @@ Raw Scan (PDF / TIFF) ---> OCR & Layout Analysis
 <!-- ===================================================================== -->
 <div class="a4-page" id="page3">
   <div class="content-area">
-    <div class="doc-header">
-      <div class="header-main-title">ArchaeoPhD: Technical Architecture Overview</div>
-      <div class="header-subtitle">Failure Boundaries, Hardware Footprint, and Planned Doctoral Experiments</div>
-      <table class="meta-table">
-        <tr>
-          <td><span class="meta-label">Section:</span> <span class="meta-val">Trade-Offs &amp; Roadmap</span></td>
-          <td><span class="meta-label">Binary:</span> <span class="meta-val">9.49 MB Win32 Standalone</span></td>
-          <td><span class="meta-label">Weights:</span> <span class="meta-val">4.45 GB Q4_K_M GGUF</span></td>
-          <td style="text-align: right;"><span class="meta-label">Pagination:</span> <span class="meta-val">Page 3 of 3</span></td>
-        </tr>
-      </table>
+    <div class="running-header">
+      <span class="running-title">ArchaeoPhD: Technical Architecture Overview</span>
+      <span>Section 3: Failure Modes &amp; Future Research Horizons</span>
     </div>
 
-    <h2 class="section-heading">
-      <span>1. Critical Failure Modes &amp; Engineering Mitigations</span>
-      <span>[Page 3 / 3]</span>
-    </h2>
+    <h2 class="section-heading">1. Critical Failure Modes &amp; Engineering Mitigations</h2>
 
     <ul class="academic-list">
       <li><strong>Where C++ Deterministic Rules Fail:</strong> Syntactic parsers cannot resolve unaligned multi-column OCR tables or damaged physical plates where typography is fragmented.<br>
@@ -554,9 +554,7 @@ Hardware Footprint Verification:
 • Runtime Footprint:           ~65 MB base idle RAM | Opens 0 network sockets | Fully Air-Gapped
     </div>
 
-    <h2 class="section-heading">
-      <span>2. Planned Technical Experiments (Doctoral Research Roadmap)</span>
-    </h2>
+    <h2 class="section-heading">2. Planned Technical Experiments (Doctoral Research Roadmap)</h2>
 
     <div class="column-box" style="margin-bottom: 4px;">
       <h3>Experiment 1: Local Vision-Language Models (VLMs) on High-Resolution Letterpress Crops</h3>
@@ -587,8 +585,8 @@ Hardware Footprint Verification:
 
   <div class="doc-footer">
     <span>ArchaeoPhD Technical Architecture Memorandum</span>
-    <span>CONFIDENTIAL &amp; PROPRIETARY &mdash; FOR ADVISORY REVIEW ONLY</span>
-    <span class="page-number">Page 3 of 3</span>
+    <span>CONFIDENTIAL &mdash; FOR ADVISORY COMMITTEE REVIEW</span>
+    <span class="page-number">Page 3</span>
   </div>
 </div>
 

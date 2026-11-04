@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ArchaeoPhD: Operational Methodology & Epistemological Framework</title>
+<style>
+  /* Zero page margin suppresses browser URLs and timestamps */
+  @page {
+    size: A4 portrait;
+    margin: 0mm !important;
+  }
+
+  :root {
+    --text-primary: #000000;
+    --text-secondary: #222222;
+    --text-muted: #555555;
+    --border-thick: 1.5pt solid #000000;
+    --border-thin: 0.75pt solid #000000;
+    --border-hairline: 0.5pt solid #888888;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background-color: #e5e5e5;
+    font-family: 'Times New Roman', Times, Georgia, serif;
+    color: var(--text-primary);
+    line-height: 1.34;
+    font-size: 10.5pt;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Fixed A4 Page Container */
+  .a4-page {
+    width: 210mm;
+    height: 297mm;
+    max-height: 297mm;
+    margin: 12mm auto;
+    padding: 16mm 18mm 14mm 18mm;
+    background: #ffffff;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+
+  @media print {
+    html, body {
+      background: #ffffff !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      width: 210mm !important;
+    }
+    .a4-page {
+      margin: 0 !important;
+      width: 210mm !important;
+      height: 297mm !important;
+      max-height: 297mm !important;
+      padding: 16mm 18mm 14mm 18mm !important;
+      box-shadow: none !important;
+      page-break-inside: avoid !important;
+      break-inside: avoid !important;
+      page-break-after: always !important;
+      break-after: page !important;
+      overflow: hidden !important;
+      box-sizing: border-box !important;
+    }
+    .a4-page:last-child {
+      page-break-after: auto !important;
+      break-after: auto !important;
+    }
+    .no-print {
+      display: none !important;
+    }
+  }
+
+  .content-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Primary Document Masthead (Page 1 Only) */
+  .doc-header-main {
+    border-top: var(--border-thick);
+    border-bottom: var(--border-thin);
+    padding: 7px 0 5px 0;
+    margin-bottom: 8px;
+  }
+
+  .header-main-title {
+    font-size: 15pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    line-height: 1.15;
+    text-align: center;
+    color: var(--text-primary);
+  }
+
+  .header-subtitle {
+    font-size: 9.5pt;
+    font-style: italic;
+    text-align: center;
+    margin-top: 2px;
+    color: var(--text-secondary);
+  }
+
+  .meta-table {
+    width: 100%;
+    margin-top: 5px;
+    border-top: var(--border-hairline);
+    font-size: 8pt;
+    font-family: 'Times New Roman', Times, serif;
+    border-collapse: collapse;
+  }
+
+  .meta-table td {
+    padding: 2.5px 5px;
+    vertical-align: middle;
+  }
+
+  .meta-label {
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 7pt;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+  }
+
+  .meta-val {
+    font-weight: bold;
+    color: var(--text-primary);
+  }
+
+  /* Running Header (Pages 2, 3, 4) */
+  .running-header {
+    border-bottom: var(--border-thin);
+    padding-bottom: 3.5px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 8.5pt;
+    font-style: italic;
+    color: var(--text-muted);
+  }
+
+  .running-header span.running-title {
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    font-style: normal;
+    color: var(--text-primary);
+  }
+
+  /* Section Headings */
+  h2.section-heading {
+    font-size: 10.5pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-bottom: var(--border-thin);
+    padding-bottom: 1.5px;
+    margin: 8px 0 5px 0;
+  }
+
+  h3.sub-heading {
+    font-size: 9.5pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    margin: 5px 0 3px 0;
+  }
+
+  /* Formal Thesis Box */
+  .thesis-box {
+    border: var(--border-thick);
+    padding: 6px 10px;
+    margin: 5px 0 7px 0;
+    background: #ffffff;
+    font-size: 9.5pt;
+    line-height: 1.32;
+  }
+
+  .thesis-box strong {
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    font-size: 8pt;
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  /* Monospace / ASCII Block */
+  .diagram-box {
+    border: var(--border-thin);
+    background: #ffffff;
+    padding: 5px 8px;
+    margin: 6px 0;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 8pt;
+    line-height: 1.25;
+    color: #000000;
+    white-space: pre;
+  }
+
+  /* Academic Bullet List */
+  ul.academic-list {
+    list-style-type: none;
+    padding-left: 0;
+  }
+
+  ul.academic-list li {
+    position: relative;
+    padding-left: 11px;
+    margin-bottom: 4px;
+    font-size: 9pt;
+    line-height: 1.3;
+  }
+
+  ul.academic-list li::before {
+    content: "■";
+    position: absolute;
+    left: 1px;
+    top: 2px;
+    font-size: 5pt;
+    color: #000000;
+  }
+
+  /* LaTeX Booktabs Table */
+  table.booktabs {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 6px 0;
+    font-size: 8.5pt;
+    line-height: 1.25;
+  }
+
+  table.booktabs thead tr {
+    border-top: var(--border-thick);
+    border-bottom: var(--border-thick);
+  }
+
+  table.booktabs th {
+    font-weight: bold;
+    text-align: left;
+    padding: 3.5px 5px;
+    text-transform: uppercase;
+    font-size: 7.5pt;
+    letter-spacing: 0.04em;
+  }
+
+  table.booktabs tbody tr {
+    border-bottom: 0.5pt solid #dddddd;
+  }
+
+  table.booktabs tbody tr:last-child {
+    border-bottom: var(--border-thick);
+  }
+
+  table.booktabs td {
+    padding: 3px 5px;
+    vertical-align: top;
+  }
+
+  .box-container {
+    border: var(--border-thin);
+    padding: 5px 8px;
+    margin: 5px 0;
+    background: #ffffff;
+  }
+
+  /* Conflict Callout Box */
+  .conflict-box {
+    border: 1.5pt solid #000000;
+    padding: 6px 9px;
+    margin: 5px 0;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 8pt;
+    line-height: 1.26;
+    background: #ffffff;
+  }
+
+  /* Academic Footer */
+  .doc-footer {
+    border-top: var(--border-thick);
+    padding-top: 4px;
+    margin-top: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 8pt;
+    font-style: italic;
+    color: var(--text-muted);
+  }
+
+  .doc-footer .page-number {
+    font-style: normal;
+    font-weight: bold;
+    color: var(--text-primary);
+  }
+
+  /* Screen Action Bar */
+  .action-bar {
+    max-width: 210mm;
+    margin: 10mm auto 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #000000;
+    padding: 7px 14px;
+    color: #ffffff;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 9pt;
+  }
+
+  .btn {
+    background: #ffffff;
+    color: #000000;
+    border: 1px solid #ffffff;
+    padding: 4px 10px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 8.5pt;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+<div class="action-bar no-print">
+  <div>[ARCHAEOPHD] OPERATIONAL METHODOLOGY &amp; EPISTEMOLOGICAL FRAMEWORK</div>
+  <div>
+    <button class="btn" onclick="window.print()">Print / Save PDF</button>
+  </div>
+</div>
+
+<!-- ===================================================================== -->
+<!-- PAGE 1: OPERATION 1 — THE PRIVATE LOCAL RESEARCH SPACE                -->
+<!-- ===================================================================== -->
+<div class="a4-page" id="page1">
+  <div class="content-area">
+    <div class="doc-header-main">
+      <div class="header-main-title">ArchaeoPhD: Operational Methodology &amp; Epistemological Framework</div>
+      <div class="header-subtitle">From File Systems to Physical Ground Truth: Knowledge Representation, Contradiction Discovery, and The Living Thesis</div>
+      <table class="meta-table">
+        <tr>
+          <td><span class="meta-label">Domain:</span> <span class="meta-val">Doctoral Research Methodology</span></td>
+          <td><span class="meta-label">Epistemic Paradigm:</span> <span class="meta-val">Tri-Layer Archaeological Ontology</span></td>
+          <td><span class="meta-label">Document Role:</span> <span class="meta-val">Operational Theory &amp; Scholarly Workflow</span></td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="thesis-box">
+      <strong>Epistemological Departure:</strong>
+      Conventional research practices organize collections by file provenance—PDFs in directories, highlights in Zotero, notes in Notion. Knowledge is indexed by where it came from (the source), rather than what it asserts about the physical world. ArchaeoPhD completely inverts this paradigm: knowledge is organized by its ontological assertions regarding physical, ground-truth reality.
+    </div>
+
+    <h2 class="section-heading">Operation 1: The Private Local Research Space</h2>
+
+    <p style="font-size: 8.5pt; margin-bottom: 4px;">
+      When an archival publication (e.g., a 1978 excavation monograph) enters the space, it is parsed not as passive text, but decomposed into structured factual assertions anchored to real-world entities:
+    </p>
+
+    <div class="diagram-box">
+Source: Kenyon, K. (1978). The Bible and Recent Archaeology. p. 47
+        |
+        +-- SITE MENTIONED:    Tell es-Sultan (Jericho)
+        +-- STRATUM MENTIONED: Stratum IV, Phase b
+        +-- ARTIFACT:          Pottery assemblage, wheel-made burnished red slip
+        +-- DATE CLAIM:        1550 BCE (Middle Bronze Age IIB termination)
+        +-- INTERPRETATION:    Destruction by fire, violent conquest origin
+        +-- PHYSICAL EVIDENCE: Ash layer 0.4m thick, colluvial debris over mudbrick
+    </div>
+
+    <p style="font-size: 8.5pt; margin-bottom: 5px;">
+      Across 50, 100, or 500 monographs, every assertion is indexed as structured nodes linked to physical reality.
+    </p>
+
+    <h2 class="section-heading">Internal Ontology: The Tri-Layer Knowledge Architecture</h2>
+
+    <div class="box-container">
+      <h3 class="sub-heading">Layer A — The Physical World Layer (The Ground Truth)</h3>
+      <p style="font-size: 8.5pt; margin-bottom: 3px;">
+        The bedrock of the entire epistemological system. It records only entities that physically exist or existed:
+      </p>
+      <ul class="academic-list">
+        <li><strong>Sites:</strong> Excavated physical locations, geospatial coordinates, elevation, excavation history.</li>
+        <li><strong>Stratigraphic Units:</strong> Physical soil layers, sediment boundaries, stratigraphic relationships (above, below, cut by, filled by).</li>
+        <li><strong>Artifacts:</strong> Material objects, typological classifications, exact findspots within verified strata.</li>
+        <li><strong>Samples:</strong> Radiocarbon specimens, dendrochronology cores, laboratory accession numbers, calibrated probability envelopes.</li>
+      </ul>
+      <p style="font-size: 8pt; font-style: italic; margin-top: 2px;">
+        *Invariant: Layer A never alters based on scholarly interpretation. It represents fixed, empirical physical reality.
+      </p>
+    </div>
+
+    <div class="box-container">
+      <h3 class="sub-heading">Layer B — The Claims Layer (The Interpretive World)</h3>
+      <p style="font-size: 8.5pt; margin-bottom: 3px;">
+        The domain of academic assertion. A claim is any scholarly proposition connecting physical reality (Layer A) to historical narrative:
+      </p>
+      <ul class="academic-list">
+        <li><em>"Stratum IV destruction is associated with Pharaoh Thutmose III's campaign of 1457 BCE."</em></li>
+        <li><em>"The wheel-made pottery in Locus 402 indicates maritime trade connections with the Aegean coast."</em></li>
+        <li><em>"The burnt layer in Trench B represents intentional civic demolition rather than military assault."</em></li>
+      </ul>
+      <p style="font-size: 8pt; margin-top: 2px;">
+        Every claim formally binds to: (1) The physical entities in Layer A; (2) The publishing scholar; (3) A confidence tag (<em>Verified, Contested, Speculative</em>).
+      </p>
+    </div>
+
+    <div class="box-container">
+      <h3 class="sub-heading">Layer C — The Evidence Layer (The Evidentiary Bridge)</h3>
+      <p style="font-size: 8.5pt; margin-bottom: 2px;">
+        The explicit bridge recording the directional evidentiary chain linking claims to physical ground truth:
+      </p>
+      <div class="diagram-box" style="margin: 3px 0; font-size: 7.5pt;">
+CLAIM: "Destruction of Stratum IV was caused by warfare"
+  |-- SUPPORTS:     Bronze arrowheads in mudbrick; Unburied trauma victims (Trench C, Unit 17);
+  |                 0.4m ash layer covering 70% of excavated area (uniform spread pattern)
+  |-- REFUTES:      No weapons in perimeter; Earthquake slump debris in Trench A (walls slumped inward)
+  \-- CONTEXTUAL:   Pottery shows MB IIB typological cessation (neutral chronological marker)
+      </div>
+    </div>
+  </div>
+
+  <div class="doc-footer">
+    <span>ArchaeoPhD Operational Methodology &amp; Epistemological Framework</span>
+    <span>CONFIDENTIAL &mdash; DOCTORAL DISSERTATION METHODOLOGY</span>
+    <span class="page-number">Page 1 of 4</span>
+  </div>
+</div>
+
+<!-- ===================================================================== -->
+<!-- PAGE 2: MULTI-LAYER SEARCH & CONTRADICTION ENGINE (TYPES 1 & 2)       -->
+<!-- ===================================================================== -->
+<div class="a4-page" id="page2">
+  <div class="content-area">
+    <div class="running-header">
+      <span class="running-title">ArchaeoPhD: Operational Methodology</span>
+      <span>Section 2: Conceptual Retrieval &amp; Contradiction Typology</span>
+    </div>
+
+    <h2 class="section-heading">What Searching the Research Space Actually Means</h2>
+
+    <p style="font-size: 8.5pt; margin-bottom: 4px;">
+      Querying the Research Space is not lexical keyword search; it is a conceptual query evaluated across all three ontological layers simultaneously.
+    </p>
+
+    <div class="conflict-box">
+QUERY: "Destruction of MB IIB sites in the Southern Levant between 1550 and 1450 BCE"
+=========================================================================================
+SITES MATCHING:
+  * Tell es-Sultan (Jericho) --- Kenyon 1978, Stratum IV, 1550 BCE fire layer
+  * Tell el-Ajjul (Gaza)     --- Petrie 1931, Palace III, 1500 BCE abandonment
+  * Megiddo                  --- Loud 1948, Stratum X, 1479 BCE Thutmosid destruction
+  * Hazor                    --- Yadin 1972, Stratum XVI, unclear date (1550-1400 BCE range)
+CLAIMS ACROSS ALL SOURCES:
+  * [3 sources] Attribute destruction to Egyptian military campaigns (Thutmose III)
+  * [2 sources] Attribute destruction to Hyksos collapse and internal civil conflict
+  * [1 source]  Attributes Jericho specifically to seismic activity (Wood 1990)
+PHYSICAL EVIDENCE SUMMARY:
+  * Ash layers: 4 of 4 sites (consistent)  * Unburied trauma victims: 2 of 4 sites (partial)
+  * Egyptian scarabs in post-destruction: 3 of 4  * Earthquake indicators: 1 of 4 (Jericho only)
+UNRESOLVED GAPS:
+  * Hazor Stratum XVI has no radiocarbon dates --- chronology based purely on ceramic typology
+    </div>
+
+    <h2 class="section-heading">Operation 2: The Contradiction Detection Engine</h2>
+
+    <p style="font-size: 8.5pt; margin-bottom: 5px;">
+      Archaeological contradictions are rarely explicit; they emerge silently across decades between scholars who never read one another, across incompatible radiocarbon calibration curves, or between conflicting trench sections. The Contradiction Detection Engine executes continuous background surveillance over the tri-layer ontology across four distinct classes:
+    </p>
+
+    <h2 class="section-heading">Contradiction Typology: Class 1 &amp; Class 2</h2>
+
+    <div class="box-container">
+      <h3 class="sub-heading">Type 1 — Chronological Contradiction (Date Clashes)</h3>
+      <p style="font-size: 8.5pt; margin-bottom: 3px;">
+        Two or more sources assign incompatible chronological bounds to the identical physical entity:
+      </p>
+      <div class="conflict-box">
+CONFLICT DETECTED: Tell es-Sultan, Stratum IV Destruction Layer
+  Source A: Kenyon (1978)                       ---> 1550 BCE
+  Source B: Wood (1990)                         ---> 1400 BCE
+  Source C: Bruins & Van der Plicht (1996, C14)  ---> 1562-1527 BCE [2-sigma]
+  Source D: Bietak (2002)                       ---> 1530-1480 BCE
+CONFLICT TYPE: Chronological Spread (130-year scholarly variance)
+SEVERITY:      HIGH --- Dissertation synchronism depends on Egyptian correlation
+RESOLVE:       Select explicit chronological framework OR formally argue uncertainty
+      </div>
+      <p style="font-size: 8pt; font-style: italic;">
+        *Operational Protocol: The system never arbitrarily picks a winner. It warns the researcher: "You cannot build an argument on this stratum without addressing this 130-year debate."
+      </p>
+    </div>
+
+    <div class="box-container">
+      <h3 class="sub-heading">Type 2 — Interpretive Contradiction (Same Evidence, Opposite Conclusions)</h3>
+      <p style="font-size: 8.5pt; margin-bottom: 3px;">
+        Scholars inspect identical empirical findings in Layer A but assert antithetical causal conclusions in Layer B:
+      </p>
+      <div class="conflict-box">
+CONFLICT DETECTED: Charred seeds, Trench B, Stratum IV (Tell es-Sultan)
+  Interpretation A: Kenyon (1978) ---> Cooking refuse from domestic hearth
+                    Evidence: Located near domestic architecture, no ritual objects
+  Interpretation B: Wood (1990)   ---> Stored grain destroyed in siege warfare
+                    Evidence: Seed density exceeds domestic refuse, uniform spread
+CONFLICT TYPE: Interpretive Contradiction (identical artifact, opposite social context)
+SEVERITY:      MEDIUM --- Alters site function vs. destruction character thesis argument
+OPTIONS:       (1) Accept A (weakens warfare); (2) Accept B (strengthens siege); (3) Flag
+      </div>
+    </div>
+  </div>
+
+  <div class="doc-footer">
+    <span>ArchaeoPhD Operational Methodology &amp; Epistemological Framework</span>
+    <span>CONFIDENTIAL &mdash; DOCTORAL DISSERTATION METHODOLOGY</span>
+    <span class="page-number">Page 2 of 4</span>
+  </div>
+</div>
+
+<!-- ===================================================================== -->
+<!-- PAGE 3: CONTRADICTION ENGINE (TYPES 3 & 4) & THE LIVING THESIS        -->
+<!-- ===================================================================== -->
+<div class="a4-page" id="page3">
+  <div class="content-area">
+    <div class="running-header">
+      <span class="running-title">ArchaeoPhD: Operational Methodology</span>
+      <span>Section 3: Physical Impossibilities &amp; The Living Thesis</span>
+    </div>
+
+    <h2 class="section-heading">Contradiction Typology: Class 3 &amp; Class 4</h2>
+
+    <div class="box-container">
+      <h3 class="sub-heading">Type 3 — Stratigraphic Contradiction (Physical Impossibility)</h3>
+      <p style="font-size: 8.5pt; margin-bottom: 3px;">
+        Harris Matrix logical relationships violate fundamental laws of stratigraphy (Steno's Law of Superposition):
+      </p>
+      <div class="conflict-box">
+STRATIGRAPHIC CYCLE DETECTED: Physical Topological Violation
+  Report A (Kenyon 1978): Unit 402 is ABOVE Unit 317 (Unit 402 is YOUNGER)
+  Report B (Wood 1990):   Unit 317 is ABOVE Unit 402 (Unit 317 is YOUNGER)
+LOGICAL RESULT: A > B AND B > A --- PHYSICALLY IMPOSSIBLE CYCLE
+LIKELY CAUSE:   Divergent trench section recording or typographic unit transposition
+SEVERITY:       CRITICAL --- Invalidates any chronological sequence built on these units
+ACTION TAKEN:   Quarantine affected nodes; mark all dependent claims as
+                "Chronologically Unresolvable --- Do Not Cite Without Manual Verification"
+      </div>
+    </div>
+
+    <div class="box-container">
+      <h3 class="sub-heading">Type 4 — Cross-Site Synchronization Contradiction (Regional Inconsistency)</h3>
+      <p style="font-size: 8.5pt; margin-bottom: 3px;">
+        A macro-historical conclusion drawn by comparing multiple excavation sites collapses when regional datasets are unified:
+      </p>
+      <div class="conflict-box">
+REGIONAL SYNCHRONY CONFLICT: "Bronze Age Collapse" ca. 1200 BCE
+  Site 1 --- Megiddo: Final MB IIB stratum dated to 1150 BCE (ceramic typology)
+  Site 2 --- Hazor:   Final MB IIB stratum dated to 1230 BCE (C-14, high confidence)
+  Site 3 --- Lachish: Final MB IIB stratum dated to 1175 BCE (ceramic + scarab)
+  Site 4 --- Ugarit:  Destruction with cuneiform tablets dated to 1185 BCE (historical anchor)
+THESIS PROPOSITION: "Simultaneous regional collapse across the Southern Levant ca. 1200 BCE"
+CONFLICT:           Hazor destruction predates synchronization horizon by 30-50 years
+RECOMMENDATION:     Reframe argument from "simultaneous collapse" to "staggered regional
+                    destabilization 1230-1150 BCE" to withstand external viva cross-examination
+      </div>
+    </div>
+
+    <h2 class="section-heading">Inline Verification During Dissertation Writing</h2>
+
+    <p style="font-size: 8.5pt; margin-bottom: 3px;">
+      During active chapter drafting, sentences typed by the candidate trigger live graph validation against the entire research space:
+    </p>
+
+    <div class="diagram-box" style="font-size: 7.5pt; margin: 4px 0;">
+CANDIDATE DRAFT: "The destruction of Tell es-Sultan in the 16th century BCE represents definitive
+evidence for Canaanite urban collapse triggered by Egyptian military expansion under Thutmose III."
+--------------------------------------------------------------------------------------------------
+[!] CHRONOLOGICAL CONFLICT:
+    Depends on 16th c. BCE date. Kenyon (1978): 1550 BCE [VALIDATES]; Bruins C-14: 1562-1527 BCE
+    [VALIDATES]; Wood (1990): 1400 BCE [CONTRADICTS - 15th Century Assignment].
+[!] INTERPRETIVE CONFLICT:
+    Attribution to Thutmose III is contested: Bietak (2002) links to Hyksos expulsion;
+    Na'aman (1994) rejects Egyptian military agency entirely.
+[>] ACTION: Footnote the chronological debate or explicitly argue exclusion of Wood (1990).
+    </div>
+
+    <h2 class="section-heading">How The Operations Synthesize: The Living Thesis</h2>
+
+    <div class="thesis-box" style="margin: 4px 0;">
+      <strong>The Dual Operational Imperative:</strong><br>
+      <strong>Research Space (Total Recall):</strong> Ingests and structures everything known across a century of archival scholarship.<br>
+      <strong>Contradiction Engine (Epistemic Honesty):</strong> Continuously identifies where the literature fights itself, preventing candidates from building arguments on unstable ground.<br>
+      <em>Outcome:</em> A dissertation argument that is defense-proof—not because the scholar was lucky, but because systemic verification operated at every step of synthesis.
+    </div>
+  </div>
+
+  <div class="doc-footer">
+    <span>ArchaeoPhD Operational Methodology &amp; Epistemological Framework</span>
+    <span>CONFIDENTIAL &mdash; DOCTORAL DISSERTATION METHODOLOGY</span>
+    <span class="page-number">Page 3 of 4</span>
+  </div>
+</div>
+
+<!-- ===================================================================== -->
+<!-- PAGE 4: THE 7 CORE RESEARCH CAPABILITIES & WORKFLOW AUDIT             -->
+<!-- ===================================================================== -->
+<div class="a4-page" id="page4">
+  <div class="content-area">
+    <div class="running-header">
+      <span class="running-title">ArchaeoPhD: Operational Methodology</span>
+      <span>Section 4: Core Capabilities &amp; Pre-Submission Audit</span>
+    </div>
+
+    <h2 class="section-heading">The Seven Core Scholarly Operations</h2>
+
+    <table class="booktabs">
+      <thead>
+        <tr>
+          <th style="width: 28%;">Operational Capability</th>
+          <th style="width: 72%;">Scholarly Function &amp; Epistemological Output</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>1. Research Change Feed</strong></td>
+          <td>Surfaces new evidence, claims, dates, interpretations, and conflicts automatically whenever a new archival monograph is ingested into the candidate's workspace.</td>
+        </tr>
+        <tr>
+          <td><strong>2. Claim Impact Map</strong></td>
+          <td>Traces dependency paths showing how newly ingested evidence or conflicting dates reverberate across existing claims and specific dissertation chapters.</td>
+        </tr>
+        <tr>
+          <td><strong>3. Evidence Gap Detector</strong></td>
+          <td>Identifies scholarly claims backed by weak, ambiguous, or missing physical evidence in Layer A and flags them for researcher review prior to defense.</td>
+        </tr>
+        <tr>
+          <td><strong>4. Exact Source Trace</strong></td>
+          <td>Enforces 100% evidentiary provenance: every claim, date, or assertion resolves back to the exact monograph, volume, plate, page, and verbatim archival sentence.</td>
+        </tr>
+        <tr>
+          <td><strong>5. Citation Integrity Check</strong></td>
+          <td>Verifies whether a cited historical passage genuinely supports the candidate's written sentence or whether meaning has drifted during paraphrasing.</td>
+        </tr>
+        <tr>
+          <td><strong>6. Alternative Explanation Map</strong></td>
+          <td>Plots competing academic hypotheses across the same physical evidence (e.g., warfare vs. earthquake vs. accidental fire) with supporting/refuting data chains.</td>
+        </tr>
+        <tr>
+          <td><strong>7. Pre-Submission Thesis Audit</strong></td>
+          <td>Comprehensive dissertation scan detecting unresolved chronology conflicts, citation mismatches, unsupported claims, and affected chapters before viva submission.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2 class="section-heading">End-to-End Operational Lifecycle: Tell es-Sultan Case Study</h2>
+
+    <div class="diagram-box" style="font-size: 7.5pt; margin: 4px 0;">
+[Monograph Ingestion] ---> Candidate uploads Kenyon (1978) [1550 BCE] and Wood (1990) [1400 BCE]
+       |
+       +---> Research Change Feed:  "New chronological claim detected; existing conflict surfaced"
+       +---> Claim Impact Map:      "Conflict impacts Regional Collapse hypothesis in Chapter 3"
+       +---> Evidence Gap Detector: "Warfare attribution has limited direct projectile evidence"
+       +---> Exact Source Trace:    Claim -> Kenyon 1978 -> p. 47 -> MB IIB termination passage
+       +---> Citation Integrity:    Flags "Egyptian campaign" claim as unsupported by cited text
+       +---> Alternative Explanations: Displays Warfare vs. Seismic vs. Conflagration models
+       +---> Pre-Submission Audit:  Outputs Viva Defense Pre-Flight Summary:
+                                    [!] 2 Chronology Conflicts   [!] 3 Claims Requiring Evidence
+                                    [!] 1 Citation Mismatch      [*] Chapter 3 Affected
+    </div>
+
+    <h2 class="section-heading">The Epistemological Boundary: Human Interpretive Primacy</h2>
+
+    <div class="thesis-box" style="margin-top: 4px;">
+      <strong>Core Invariant for Advisory Review:</strong>
+      ArchaeoPhD never generates historical interpretation. The machine operates exclusively as an instrument of provenance, structural coherence, and conflict discovery. The doctoral candidate retains absolute interpretive and scholarly authority; the system ensures that authority is exercised upon verifiable, defense-proof ground.
+    </div>
+  </div>
+
+  <div class="doc-footer">
+    <span>ArchaeoPhD Operational Methodology &amp; Epistemological Framework</span>
+    <span>CONFIDENTIAL &mdash; DOCTORAL DISSERTATION METHODOLOGY</span>
+    <span class="page-number">Page 4 of 4</span>
+  </div>
+</div>
+
+</body>
+</html>
