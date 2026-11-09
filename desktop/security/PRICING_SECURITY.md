@@ -88,7 +88,68 @@ A common piracy vector for offline desktop software is setting the Windows syste
   - On every launch and every hour of operation, the engine writes `max(last_verified_timestamp, current_system_time)` into encrypted storage.
 * **Tampering Trigger**:
   - If `current_system_time < last_verified_timestamp - 3600` (clock rolled back by more than 1 hour), the engine flags clock tampering:
-    > ⚠️ *System Clock Inconsistency Detected: Please synchronize your system time to continue using ArchaeoPhD.*
+    > [WARNING] System Clock Inconsistency Detected: Please synchronize your system time to continue using ArchaeoPhD.
+
+---
+
+### Layer 4: Self-Expiring Local Key Auto-Purge & Cloud Lease Lifecycle
+
+To balance offline fieldwork autonomy with strict subscription enforcement, ArchaeoPhD implements a self-expiring local lease cycle:
+
+```text
+[ Desktop Boot ] ───> Checks Local Hashed Key (license.dat / license.lease)
+                         │
+        ┌────────────────┴────────────────┐
+        ▼                                 ▼
+   [ Key Exists ]                   [ No Key Found ]
+        │                                 │
+   Decode & Verify                        │
+   Expiry Timestamp                       │
+        │                                 │
+   ┌────┴──────────────────────────┐      │
+   ▼                               ▼      │
+[ Current < Expiry ]       [ Current >= Expiry ]
+   │                               │      │
+[ Full Workstation Active ]   [ Auto-Erase Key ]
+(100% Offline, Fast Boot)          │      │
+                                   ▼      ▼
+                   [ Prompt: Connect to Network & Sign In ]
+                                   │
+                   [ HTTPS to Cloud Auth & Billing DB ]
+                                   │
+                    ┌──────────────┴──────────────┐
+                    ▼                             ▼
+         [ Active Subscription ]      [ Inactive / Unpaid ]
+                    │                             │
+          Server generates fresh         Workstation remains locked.
+          signed lease (30 days).        Prompt: "Renew subscription
+          Inserts key into local.        to continue using workstation."
+                    │
+         [ Full Access Restored ]
+```
+
+#### Detailed Lifecycle Specifications:
+
+1. **Local Hashed Key Storage**:
+   - Location: Encrypted via DPAPI / HMAC at `%LOCALAPPDATA%\ArchaeoPhD\license.dat`.
+   - Data payload includes `account_id`, `start_date`, `subscription_duration_days` (e.g. 30 days or annual plan), and `expiry_date`.
+   - The key is cryptographically signed by the cloud auth authority using Ed25519; any client-side modification invalidates the hash.
+
+2. **Ultra-Fast Local Boot (< 5 ms)**:
+   - On launch, the native C++ engine inspects the local storage for the lease file.
+   - If missing: Immediately marks the session as `STATUS_UNLICENSED` and displays the network sign-in prompt.
+   - If present: Unhashes/verifies the cryptographic signature and checks `current_time` against `expiry_date`.
+
+3. **Immediate Key Auto-Purge on Expiration**:
+   - The moment the workstation detects `current_time >= expiry_date`, it **immediately erases the hash key file from local disk**.
+   - Auto-erasing prevents stale or expired tokens from lingering in storage and ensures that subsequent launches fail fast to the network sign-in view without ambiguous state.
+
+4. **Network Re-Authentication & Database Verification**:
+   - To unlock the application, the researcher connects to the internet and signs in.
+   - The request transmits the user identity and hardware machine fingerprint over TLS to the cloud authentication service.
+   - The cloud service queries the central billing database (Stripe / PostgreSQL) to verify subscription standing:
+     - **Active Subscription Confirmed**: The cloud server generates a newly signed lease token with updated `start_date` and `expiry_date` (for the next 30-day window). The client inserts this key into local storage, immediately unlocking all native C++ engines.
+     - **No Active Subscription (Cancelled / Expired / Unpaid)**: The cloud server rejects key generation. No key is inserted into local storage, and the workstation remains locked with a renewal prompt until an active subscription is secured.
 
 ---
 

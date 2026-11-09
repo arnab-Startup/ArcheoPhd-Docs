@@ -80,3 +80,22 @@ ArchaeoPhD compiles as a **single standalone executable** without requiring an i
 | **Analysis** | `engine/analysis/` | Tarjan cycle detector (`contradictions.hpp`) and thesis auditor (`thesis_audit.hpp`) |
 | **Extraction** | `engine/extraction/` | Entity extraction & citation verifier (`document_extractor.hpp`) |
 | **Validation** | `engine/validation/` | Ground truth archaeological corpus (`benchmark_seed.hpp`) |
+
+---
+
+## 5. Authentication & Licensing Architecture (Hybrid Cryptographic Lease)
+
+While core archaeological data processing, vector embeddings, and LLM inference remain 100% offline, user identity and subscription entitlement follow a **Hybrid Cryptographic Lease Model**:
+
+1. **Local Hashed Lease Key (`license.dat`)**:
+   - Stores an encrypted lease payload containing `account_id`, `start_date`, `subscription_duration_days` (30 days default), and `expiry_date`.
+   - Signed with server-side Ed25519 digital signature; tampering with the payload invalidates the signature.
+2. **Instant Local Check & Auto-Purge**:
+   - On cold boot, the native C++ engine inspects local storage.
+   - If the key is missing or `current_time >= expiry_date`, the key is immediately erased from disk, and the user is flagged as `STATUS_UNLICENSED`.
+3. **Network Re-Verification**:
+   - The user connects to the network and signs in.
+   - The cloud auth endpoint queries the central database:
+     - **Active Subscription**: Generates a new cryptographically signed 30-day lease key and writes it to local storage, unlocking all features.
+     - **Inactive / Unpaid**: Key generation is refused, leaving the workstation locked until subscription renewal.
+4. **Detailed Specification**: See [PRICING_SECURITY.md](../security/PRICING_SECURITY.md) for full cryptographic schemas and anti-clock-rollback invariants.
