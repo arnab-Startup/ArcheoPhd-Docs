@@ -14,6 +14,7 @@ Architecture specifications, user-controlled data root storage, and hardware req
 * **[`ARCHITECTURE.md`](architecture/ARCHITECTURE.md)**: Standalone Win32 + WebView2 architecture, direct in-process IPC (`chrome.webview.postMessage`), embedded payload extraction, native Windows message pump.
 * **[`DATA_ROOT.md`](architecture/DATA_ROOT.md)**: User-chosen storage path, external SSD disconnect resilience, zero-cloud-leakage guardrails (OneDrive/iCloud/Dropbox blocklist).
 * **[`SYSTEM_REQUIREMENTS.md`](architecture/SYSTEM_REQUIREMENTS.md)**: Hardware matrix, AVX2 SIMD prerequisites, RAM footprints (16 GB recommended, 8 GB floor).
+* **[`UPDATE_AND_DATA_PERSISTENCE.md`](architecture/UPDATE_AND_DATA_PERSISTENCE.md)**: Zero-data-loss in-place auto-update, 4-Zone storage decoupling, atomic Win32 rename-replace swap, schema migrations, and automated cache/bundle garbage collection.
 
 ### ⚙️ 2. [`engine/`](engine/)
 Native C++ core computational engines:
