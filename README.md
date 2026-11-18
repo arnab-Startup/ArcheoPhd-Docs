@@ -14,8 +14,9 @@ docs/
 ├── desktop/                 # Native C++ Desktop Workstation (Win32 + WebView2)
 │   ├── architecture/        # Workstation specs, data root management, hardware matrix
 │   ├── engine/              # Native C++ engines (Extraction, Contradictions, Storage, Vector)
+│   ├── issue_reports/       # Workstation technical & domain issue evaluations (Reports 01–17)
 │   ├── plans/               # MVP meeting plan & master engineering roadmaps
-│   ├── reports/             # Empirical benchmark reports & forensic audits (Reports 01–12)
+│   ├── reports/             # Empirical benchmark reports & forensic audits (Reports 01–21)
 │   ├── security/            # Airgap privacy guarantees & DPAPI offline licensing
 │   └── specs/               # Pre-registered implementation specifications (Specs 01–04)
 └── domain/                  # Archaeological Knowledge Graph & Epistemology
@@ -43,7 +44,9 @@ The native, air-gapped C++ research workstation:
   - [`MVP_PLAN.md`](desktop/plans/MVP_PLAN.md): Focused meeting showcase MVP plan and Phase 0 extraction validation gates.
   - [`MASTER_PLAN.md`](desktop/plans/MASTER_PLAN.md): 15-feature long-term engineering and optimization roadmap.
 * **[`reports/`](desktop/reports/)**:
-  - Engineering benchmarks and empirical audit reports ([Reports 01–12](desktop/reports/README.md), 22-window forensic inspection).
+  - Engineering benchmarks and empirical audit reports ([Reports 01–21](desktop/reports/README.md), 22-window forensic inspection).
+* **[`issue_reports/`](desktop/issue_reports/)**:
+  - Technical audits and archaeological domain evaluations ([Reports 01–17](desktop/issue_reports/README.md)).
 * **[`security/`](desktop/security/)**:
   - [`AIRGAP_PRIVACY.md`](desktop/security/AIRGAP_PRIVACY.md): 100% offline guarantee protecting confidential excavation findspots.
   - [`PRICING_SECURITY.md`](desktop/security/PRICING_SECURITY.md): Ed25519 digital signatures, Windows DPAPI hardware encryption, anti-rollback monotonic clock.
